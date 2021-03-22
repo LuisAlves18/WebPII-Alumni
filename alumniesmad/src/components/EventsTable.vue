@@ -1,0 +1,60 @@
+<template>
+    <div id="eventsTable">
+        <table>
+            <tr>
+                <th>Nome</th>
+                <th>Tipo</th>
+                <th>Data</th>
+                <th>Ações</th>
+            </tr>
+            <tr v-for="event in this.eventsContent" :key="event.id">
+                <td>{{event.name}}</td>
+                <td>{{getEventTypeById(event.id_event_type)}}</td>
+                <td>Data: {{getDateAndTime(event.date_time_event)[0]}} & Hora:{{getDateAndTime(event.date_time_event)[1]}}</td>
+                <td>
+                    <b-button @click="seeMoreEvent(event)" class="btns">Detalhes</b-button>
+                    <b-button @click="manageEnrollments(event)" class="btns">Inscrições</b-button>
+                    <b-button @click="removeEvent(event.id)" class="btns">Remover</b-button>
+                </td>
+            </tr>
+        </table>
+        <router-link :to="{name: 'AddEvent'}"><b-button id="routerLinkAddEvent" class="btns">Criar Evento</b-button></router-link>
+
+    </div>
+</template>
+
+<script>
+    export default {
+        name: 'EventsTable',
+        props: {
+            eventsContent: {
+                type: Array
+            }
+        },
+        methods: {
+            getEventTypeById(id) {
+                return this.$store.state.events_type.find(type => type.id == id).description
+            },
+            getDateAndTime(dateTime) {
+                const dateAndTime = dateTime.split('/')
+                return dateAndTime
+            },
+            seeMoreEvent(event) {
+                this.$store.dispatch('seeMoreEvent', event)
+                this.$router.push({name: 'EventsDetails'})
+            },
+            removeEvent(id) {
+                this.$store.dispatch('removeEvent', id)
+                this.$router.go();
+            },
+            manageEnrollments(event) {
+                this.$store.dispatch('manageEnrollments', event)
+                this.$router.push({name: 'EnrollmentsUsersList'})
+            }
+        }
+    }
+</script>
+
+<style>
+
+</style>
