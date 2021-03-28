@@ -33,47 +33,45 @@
           >
         </li>
       </ul>
-      
-        
-         
-            <span v-if="!this.$store.getters.isLoggedUser">
-              <router-link class="navRouter" :to="{ name: 'Login' }"
-                >Login</router-link
+
+      <span v-if="!this.$store.getters.isLoggedUser">
+        <router-link class="navRouter" :to="{ name: 'Login' }"
+          >Login</router-link
+        >
+      </span>
+      <div v-else>
+        <b-nav-item-dropdown
+          class="navDrop"
+          :text="
+            this.$store.getters.getLoggedUser.fname +
+            this.$store.getters.getLoggedUser.lname
+          "
+          right
+        >
+          <b-dropdown-item>
+            <router-link class="dropItem" :to="{ name: 'Profile' }"
+              >Perfil</router-link
+            >
+          </b-dropdown-item>
+          <b-dropdown-item>
+            <router-link class="dropItem" :to="{ name: 'Social' }"
+              >Social</router-link
+            >
+          </b-dropdown-item>
+          <b-dropdown-item>
+            <span v-if="this.$store.getters.isLoggedAdmin">
+              <router-link class="dropItem" :to="{ name: 'Admin' }"
+                >Gestão de Entidades</router-link
               >
             </span>
-            <div v-else>
-              
-                <b-nav-item-dropdown class="navDrop"          
-                  :text="
-                    this.$store.getters.getLoggedUser.fname +
-                    this.$store.getters.getLoggedUser.lname
-                  "
-                  right                  
-                >
-                  <b-dropdown-item>
-                    <router-link class="dropItem" :to="{ name: 'Profile' }">Perfil</router-link>
-                  </b-dropdown-item>
-                  <b-dropdown-item>
-                    <router-link class="dropItem" :to="{ name: 'Social' }">Social</router-link>
-                  </b-dropdown-item>
-                  <b-dropdown-item>
-                    <span v-if="this.$store.getters.isLoggedAdmin">
-                      <router-link class="dropItem" :to="{ name: 'Admin' }"
-                        >Gestão de Entidades</router-link
-                      >
-                    </span>
-                  </b-dropdown-item>
-                  <b-dropdown-item>
-                    <router-link class="dropItem" @click.native="logout" to="/"
-                      >Logout</router-link
-                    >
-                  </b-dropdown-item>
-                </b-nav-item-dropdown>
-             
-            </div>
-          
-        
-      
+          </b-dropdown-item>
+          <b-dropdown-item>
+            <router-link class="dropItem" @click.native="logout" to="/"
+              >Logout</router-link
+            >
+          </b-dropdown-item>
+        </b-nav-item-dropdown>
+      </div>
     </div>
   </nav>
 
@@ -114,8 +112,6 @@ export default {
 </script>
 
 <style>
-
-
 .navbar {
   background-color: #0f4c81 !important;
   color: white !important;
@@ -127,17 +123,15 @@ export default {
 .navRouter {
   color: white !important;
 }
-.navDrop{
-  list-style: none !important; 
-
+.navDrop {
+  list-style: none !important;
 }
 
-.dropItem{
+.dropItem {
   color: rgb(30, 30, 30) !important;
-
 }
-a.dropdown-item:active{
-  background: white !important;  
+a.dropdown-item:active {
+  background: white !important;
 }
 
 .navRouter:hover {
@@ -145,5 +139,4 @@ a.dropdown-item:active{
   transition: ease-in-out 0.3s !important;
   text-decoration: none;
 }
-
 </style>

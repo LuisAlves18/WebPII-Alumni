@@ -1,107 +1,119 @@
 <template>
   <div id="offers">
-    <b-img
-      class="headerImg"
-      fluid
-      src="../assets/offerPage/offerHeader1.jpg"
-    ></b-img>
+    <div class="offersHeader">
+      <b-img
+        class="headerImg img-fluid"
+        src="../assets/offerPage/offersHeader.jpg"
+      ></b-img>
+      <div class="headerContent justify-content-center">
+        <p class="offersTitle">Encontre o seu trabalho aqui</p>
+
+        <div class="headerDropdowns row">
+          <div class="typeDrop mb-3 col-lg-6 text-center">
+            <label for="#dropdownType"> Tipo de Oferta</label>
+            <div class="dropdown" id="dropdownType">
+              <button
+                class="btn dropdown-toggle buttonHeader"
+                type="button"
+                id="dropdownMenuButton"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                Tipo de Oferta
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a
+                  class="dropdown-item"
+                  v-for="type in this.$store.state.offers_type"
+                  :key="type.id"
+                  >{{ type.description }}</a
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="CursoDrop mb-3 col-lg-6 text-center">
+            <label for="#dropdownCurso">Curso Frequentado</label>
+            <div class="dropdown" id="dropdownCurso">
+              <button
+                class="btn dropdown-toggle buttonHeader"
+                type="button"
+                id="dropdownMenuButton"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                Curso Frequentado
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a
+                  class="dropdown-item"
+                  v-for="area in this.$store.state.areas"
+                  :key="area.id"
+                  >{{ area.description }}</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- <router-link to="/offers/jobs">Ofertas Profissionais</router-link> |
     <router-link to="/offers/internships">Estágios</router-link> |
     <router-link to="/offers/freelance">Freelance</router-link> |
     <router-link to="/offers/events">Eventos</router-link> |
     <router-link to="/offers/workshops">Workshops</router-link> -->
     <b-container class="containerOffers mt-5">
-      <h3 class="text-left">Filtrar Oferta</h3>
-      <b-row class="d-flex justify-content-center mt-3">        
-        <div class="card col-lg-3 text-left filterCard">
-          <div class="card-body">
-            <h6>Tipo</h6>
-            <div class="offersFilter">
-              <tr v-for="type in this.$store.state.offers_type" :key="type.id">
-                <input
-                  type="checkbox"
-                  :id="type.id"
-                  :value="type.id"
-                  v-model="checkedType"
-                />
-                <label class="radio-inline radioLabel" :for="type.id">{{
-                  type.description
-                }}</label
-                ><br />
-              </tr>
-              <hr id="ruler" />
-              <h6 class="d-flex">Curso</h6>
-              <tr v-for="area in this.$store.state.areas" :key="area.id">
-                <input
-                  type="checkbox"
-                  :id="area.id"
-                  :value="area.id"
-                  v-model="checkedArea"
-                />
-                <label class="radio-inline radioLabel" :for="area.id">{{
-                  area.description
-                }}</label
-                ><br />
-              </tr>
+      <tr
+        v-for="offer in filteredOffers"
+        :key="offer.id"
+        class="d-flex justify-content-center"
+      >
+        <b-card
+          class="cardOffer mb-4"
+          :img-src="getLogobyId(offer.id_Company)"
+          img-left
+        >
+          <b-card-body>
+            <div>
+              <b-card-title class="d-flex justify-content-left">{{
+                getCompanyById(offer.id_Company)
+              }}</b-card-title>
+              <b-card-sub-title class="d-flex justify-content-left mb-1">{{
+                getAreaById(offer.id_area)
+              }}</b-card-sub-title>
+              <b-card-text class="d-flex justify-content-left mt-3">
+                <ul>
+                  <p class="text-left">
+                    <i class="fas fa-list iconOffer"></i>
+                    {{ getTypeById(offer.id_type_offer) }}
+                  </p>
+
+                  <p class="text-left">
+                    <i class="fas fa-map-marker-alt iconOffer"></i>
+                    {{ getLocationById(offer.id_Company) }}
+                  </p>
+                </ul>
+              </b-card-text>
             </div>
-          </div>
-        </div>
 
-        <div class="col-lg-9">
-          <div class="offer-deck">
-            <b-row>
-              <tr v-for="offer in filteredOffers" :key="offer.id">
-                <b-col col lg="9" md="8" class="mb-3">
-                  <b-card
-                    class="cardOffer"
-                    :img-src="getLogobyId(offer.id_Company)"
-                    img-left
-                  >
-                    <b-card-body>
-                      <b-col>
-                        <b-card-title class="d-flex justify-content-left">{{
-                          getCompanyById(offer.id_Company)
-                        }}</b-card-title>
-                        <b-card-sub-title
-                          class="d-flex justify-content-left mb-1"
-                          >{{ getAreaById(offer.id_area) }}</b-card-sub-title
-                        >
-                        <b-card-text class="d-flex justify-content-left mt-3">
-                          <ul>
-                            <p class="text-left">
-                              <i class="fas fa-list iconOffer"></i>
-                              {{ getTypeById(offer.id_type_offer) }}
-                            </p>
-
-                            <p class="text-left">
-                              <i class="fas fa-map-marker-alt iconOffer"></i>
-                              {{ getLocationById(offer.id_Company) }}
-                            </p>
-                          </ul>
-                        </b-card-text>
-                      </b-col>
-                      <b-col cols="6" class="d-flex justify-content-left">
-                        <div>
-                          <router-link
-                            id="seeMoreOffer"
-                            :to="{
-                              name: 'OffersView',
-                              params: { OfferId: offer.id },
-                            }"
-                            tag="b-button"
-                          >
-                            Ver Mais
-                          </router-link>
-                        </div>
-                      </b-col>
-                    </b-card-body>
-                  </b-card>
-                </b-col>
-              </tr>
-            </b-row>
-          </div>
-        </div>
-      </b-row>
+            <div class="text-left">
+              <router-link
+                id="seeMoreOffer"
+                :to="{
+                  name: 'OffersView',
+                  params: { OfferId: offer.id },
+                }"
+                tag="b-button"
+              >
+                Ver Mais
+              </router-link>
+            </div>
+          </b-card-body>
+        </b-card>
+      </tr>
     </b-container>
   </div>
 </template>
@@ -172,12 +184,63 @@ export default {
 </script>
 
 <style>
-.headerImg {
-  max-width: 100%;
+template,
+html {
   overflow-x: hidden;
-  overflow-y: hidden;
-  padding: 0;
-  margin: 0;
+}
+
+.offersHeader {
+  position: relative;
+  display: inline-block;
+}
+
+.headerImg {
+  display: block;
+}
+
+.offersTitle {
+  color: white;
+  font-weight: bold;
+  font-size: 3.7vw;
+  text-align: left;
+}
+
+.headerContent {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.typeDrop label {
+  color: white;
+  font-size: 1.8vw;
+}
+
+.CursoDrop label {
+  font-size: 1.8vw;
+  color: white;
+}
+
+.buttonHeader {
+  border-radius: 20px;
+  background-color: rgb(225, 93, 68) !important;
+  color: white;
+  border: 0px;
+}
+
+.buttonHeader:hover {
+  color: white; 
+}
+
+.buttonHeader:focus {
+  outline: none;
+  box-shadow: none; 
+ 
+}
+
+.dropdown-item{
+  cursor: pointer;
 }
 
 .filterCard {

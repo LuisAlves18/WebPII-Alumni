@@ -15,8 +15,8 @@ export default {
   name: "App",
   components: {
     Navbar,
-    Footer,
-  },
+    Footer
+  }
 };
 </script>
 <style>
@@ -53,4 +53,6 @@ h5 {
 #nav a.router-link-exact-active {
   color: #42b983;
 }
+
+
 </style>
