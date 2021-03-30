@@ -223,7 +223,7 @@ html {
 }
 
 .buttonHeader {
-  border-radius: 20px;
+  border-radius: 5px;
   background-color: rgb(225, 93, 68) !important;
   color: white;
   border: 0px;
