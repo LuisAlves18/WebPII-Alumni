@@ -3,7 +3,7 @@
     <div>
       <b-img
         id="landingImg"
-        src="../assets/landingPage/carousel2.jpg"
+        src="https://res.cloudinary.com/dsfbhbeyt/image/upload/v1619952779/carousel1_zrxoii.jpg"
         fluid
       ></b-img>
     </div>

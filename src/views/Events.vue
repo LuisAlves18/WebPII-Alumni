@@ -1,7 +1,7 @@
 <template>
   <div class="events">
     <b-container class="containerEvents">
-      <b-img id="header" src="../assets/eventPage/events1.jpg" fluid></b-img>
+      <b-img id="header" src="https://res.cloudinary.com/dsfbhbeyt/image/upload/v1619952902/events1_qmztyv.jpg" fluid></b-img>
 
       <div class="filter-overlay ml-auto mr-auto">
         <div class="input-group mb-3 fltEventName">

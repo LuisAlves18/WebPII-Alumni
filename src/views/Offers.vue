@@ -3,7 +3,7 @@
     <div class="offersHeader">
       <b-img
         class="headerImg img-fluid"
-        src="../assets/offerPage/offersHeader.jpg"
+        src="https://res.cloudinary.com/dsfbhbeyt/image/upload/v1619952911/offersHeader_pbki15.jpg"
       ></b-img>
       <div class="headerContent justify-content-center">
         <p class="offersTitle">Encontre o seu trabalho aqui</p>
@@ -154,8 +154,10 @@ export default {
       return this.$store.state.offers.filter((offer) => {
         let filterOffersType = true;
         let filterOffersArea = true;
-        if (this.checkedType.length != 0) {
-          for (let i = 0; i < this.checkedType.length; i++) {
+        let checkedTypeLth = this.checkedType.length
+        let checkedAreaLth = this.checkedArea.length
+        if (checkedTypeLth != 0) {
+          for (let i = 0; i < checkedTypeLth; i++) {
             if (offer.id_type_offer == this.checkedType[i]) {
               filterOffersType = true;
             } else {
@@ -165,8 +167,8 @@ export default {
         } else {
           filterOffersType = true;
         }
-        if (this.checkedArea.length != 0) {
-          for (let i = 0; i < this.checkedArea.length; i++) {
+        if (checkedAreaLth != 0) {
+          for (let i = 0; i < checkedAreaLth; i++) {
             if (offer.id_type_offer == this.checkedArea[i]) {
               filterOffersArea = true;
             } else {
@@ -226,7 +228,7 @@ html {
   border-radius: 5px;
   background-color: rgb(225, 93, 68) !important;
   color: white;
-  border: 0px;
+  
 }
 
 .buttonHeader:hover {
