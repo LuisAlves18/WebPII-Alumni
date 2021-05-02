@@ -3,7 +3,7 @@
     <div class="offersHeader">
       <b-img
         class="headerImg img-fluid"
-        src="https://res.cloudinary.com/dsfbhbeyt/image/upload/v1619952911/offersHeader_pbki15.jpg"
+        src="https://res.cloudinary.com/dsfbhbeyt/image/upload/v1619953755/offersHeader_ua0sxj.webp"
       ></b-img>
       <div class="headerContent justify-content-center">
         <p class="offersTitle">Encontre o seu trabalho aqui</p>
