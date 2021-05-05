@@ -1,59 +1,64 @@
 <template>
   <div id="offers">
-    <div class="offersHeader">
-      <b-img
-        class="headerImg img-fluid"
-        src="https://res.cloudinary.com/dsfbhbeyt/image/upload/v1619953755/offersHeader_ua0sxj.webp"
-      ></b-img>
-      <div class="headerContent justify-content-center">
-        <p class="offersTitle">Encontre o seu trabalho aqui</p>
+    <div
+      class="bg-image justify-content-center"
+      style="
+        height:60vh;
+        width:100vw;
+        background-image: url('https://res.cloudinary.com/dsfbhbeyt/image/upload/v1619953742/carousel1_jktwrb.webp');
+        background-attachment:fixed;
+        background-position:center;
+        background-repeat:no-repeat;
+        background-size:cover;
+        "
+    >
+      <p class="offersTitle">Encontre o seu trabalho aqui</p>
 
-        <div class="headerDropdowns row">
-          <div class="typeDrop mb-3 col-lg-6 text-center">
-            <label for="#dropdownType"> Tipo de Oferta</label>
-            <div class="dropdown" id="dropdownType">
-              <button
-                class="btn dropdown-toggle buttonHeader"
-                type="button"
-                id="dropdownMenuButton"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
+      <div class="headerDropdowns row justify-content-lg-center">
+        <div class="typeDrop col-lg-6 mb-4">
+          <label for="#dropdownType"> Tipo de Oferta</label>
+          <div class="dropdown" id="dropdownType">
+            <button
+              class="btn dropdown-toggle buttonHeader"
+              type="button"
+              id="dropdownMenuButton"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Tipo de Oferta
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a
+                class="dropdown-item"
+                v-for="type in this.$store.state.offers_type"
+                :key="type.id"
+                >{{ type.description }}</a
               >
-                Tipo de Oferta
-              </button>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a
-                  class="dropdown-item"
-                  v-for="type in this.$store.state.offers_type"
-                  :key="type.id"
-                  >{{ type.description }}</a
-                >
-              </div>
             </div>
           </div>
+        </div>
 
-          <div class="CursoDrop mb-3 col-lg-6 text-center">
-            <label for="#dropdownCurso">Curso Frequentado</label>
-            <div class="dropdown" id="dropdownCurso">
-              <button
-                class="btn dropdown-toggle buttonHeader"
-                type="button"
-                id="dropdownMenuButton"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
+        <div class="cursoDrop col-lg-6">
+          <label for="#dropdownCurso">Curso Frequentado</label>
+          <div class="dropdown" id="dropdownCurso">
+            <button
+              class="btn dropdown-toggle buttonHeader"
+              type="button"
+              id="dropdownMenuButton"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              Curso Frequentado
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a
+                class="dropdown-item"
+                v-for="area in this.$store.state.areas"
+                :key="area.id"
+                >{{ area.description }}</a
               >
-                Curso Frequentado
-              </button>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a
-                  class="dropdown-item"
-                  v-for="area in this.$store.state.areas"
-                  :key="area.id"
-                  >{{ area.description }}</a
-                >
-              </div>
             </div>
           </div>
         </div>
@@ -154,8 +159,8 @@ export default {
       return this.$store.state.offers.filter((offer) => {
         let filterOffersType = true;
         let filterOffersArea = true;
-        let checkedTypeLth = this.checkedType.length
-        let checkedAreaLth = this.checkedArea.length
+        let checkedTypeLth = this.checkedType.length;
+        let checkedAreaLth = this.checkedArea.length;
         if (checkedTypeLth != 0) {
           for (let i = 0; i < checkedTypeLth; i++) {
             if (offer.id_type_offer == this.checkedType[i]) {
@@ -196,53 +201,41 @@ html {
   display: inline-block;
 }
 
-.headerImg {
-  display: block;
-}
-
-.offersTitle {
-  color: white;
-  font-weight: bold;
-  font-size: 3.7vw;
-  text-align: left;
-}
-
-.headerContent {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.typeDrop label {
-  color: white;
-  font-size: 1.8vw;
-}
-
-.CursoDrop label {
-  font-size: 1.8vw;
-  color: white;
-}
-
 .buttonHeader {
   border-radius: 5px;
   background-color: rgb(225, 93, 68) !important;
   color: white;
-  
 }
 
 .buttonHeader:hover {
-  color: white; 
+  color: white;
 }
 
 .buttonHeader:focus {
   outline: none;
-  box-shadow: none; 
- 
+  box-shadow: none;
 }
 
-.dropdown-item{
+.dropdown-item {
   cursor: pointer;
+}
+
+.offersTitle{
+  font-size: 4.5vmax;
+  font-weight: bold;
+  color: white;
+  padding-top: 100px;
+  
+}
+
+.typeDrop label{
+  color: white;
+  font-size: 4.5vmin;
+}
+
+.cursoDrop label{
+  color: white;
+  font-size: 4.5vmin;
 }
 
 .filterCard {

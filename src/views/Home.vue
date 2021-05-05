@@ -10,7 +10,63 @@
 
     <div class="container">
       <h3 class="mt-5 mb-5">Notícias em Destaque</h3>
-      <b-row class="d-flex justify-content-center">
+      <div class="card-deck">
+        <div class="card">
+          <img
+            class="card-img-top"
+            src="../assets/landingPage/news1.png"
+            alt="Card image cap"
+          />
+          <div class="card-body">
+            <h5 class="card-title">Eleições para a Presidência</h5>
+            <p class="card-text text-justify">
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum has been the industry's standard dummy text
+              ever since the 1500s.
+            </p>
+            <p class="card-text">
+              <small class="text-muted">Last updated 3 mins ago</small>
+            </p>
+          </div>
+        </div>
+        <div class="card">
+          <img
+            class="card-img-top"
+            src="../assets/landingPage/news2.png"
+            alt="Card image cap"
+          />
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text text-justify">
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum has been the industry's standard dummy text
+              ever since the 1500s.
+            </p>
+            <p class="card-text">
+              <small class="text-muted">Last updated 3 mins ago</small>
+            </p>
+          </div>
+        </div>
+        <div class="card">
+          <img
+            class="card-img-top"
+            src="../assets/landingPage/news3.png"
+            alt="Card image cap"
+          />
+          <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <p class="card-text text-justify">
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum has been the industry's standard dummy text
+              ever since the 1500s.
+            </p>
+            <p class="card-text">
+              <small class="text-muted">Last updated 3 mins ago</small>
+            </p>
+          </div>
+        </div>
+      </div>
+      <!-- <b-row class="d-flex justify-content-center">
         <b-col class="d-flex justify-content-center">
           <b-card
             img-src="../assets/landingPage/news1.png"
@@ -64,7 +120,7 @@
             <b-card-text class="newsSub text-muted"> 10 Mar 12:00 </b-card-text>
           </b-card>
         </b-col>
-      </b-row>
+      </b-row> -->
 
       <h3 class="mt-5 mb-5">Próximos Eventos</h3>
       <div class="mr-auto ml-auto">
@@ -74,37 +130,27 @@
             v-for="event in this.$store.state.events"
             :key="event.id"
           >
-
-
-     
-
-
-              <div class="row mb-3">
-                <div class="alumniEventsList">
-                  <div class="eventsDate">
-                    <div class="eventsDay">
-                      {{ event.date_time_event.split("/")[0].split("-")[2] }}
-                    </div>
-                    <div class="eventsMonth">
-                      {{ getMonth(event) }}
-                    </div>
+            <div class="row mb-3">
+              <div class="alumniEventsList">
+                <div class="eventsDate">
+                  <div class="eventsDay">
+                    {{ event.date_time_event.split("/")[0].split("-")[2] }}
                   </div>
-                </div>
-                <div class="eventsDescription">
-                  <div class="eventsSummary text-left">
-                    {{ event.description }}
+                  <div class="eventsMonth">
+                    {{ getMonth(event) }}
                   </div>
                 </div>
               </div>
-    
+              <div class="eventsDescription">
+                <div class="eventsSummary text-left">
+                  {{ event.description }}
+                </div>
+              </div>
+            </div>
           </tr>
         </b-row>
       </div>
-
-      
     </div>
-
-    
   </div>
 </template>
 
@@ -150,7 +196,6 @@
   padding: 10px;
   width: 85%;
 }
-
 </style>
 
 <script>
