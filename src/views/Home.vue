@@ -1,10 +1,12 @@
 <template>
   <div class="home">
     <div>
+      
       <b-img
         id="landingImg"
         src="https://res.cloudinary.com/dsfbhbeyt/image/upload/v1619953742/carousel1_jktwrb.webp"
         rel = "preload"
+        alt="HOMEPAGE"
         fluid
       ></b-img>
     </div>
