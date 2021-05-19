@@ -2,9 +2,8 @@
   <div id="app">
     <Navbar></Navbar>
     <router-view />
-    <b-container>
-      <Footer></Footer>
-    </b-container>
+
+    <Footer></Footer>
   </div>
 </template>
 <script>
@@ -15,8 +14,8 @@ export default {
   name: "App",
   components: {
     Navbar,
-    Footer
-  }
+    Footer,
+  },
 };
 </script>
 <style>
@@ -24,7 +23,7 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=Lato&display=swap");
 #app {
   font-family: "Lato", sans-serif;
-  
+
   -webkit-font-smoothing: antialiased;
   font-display: auto;
   -moz-osx-font-smoothing: grayscale;
@@ -43,10 +42,6 @@ h5 {
   font-weight: 600;
 }
 
-#nav {
-  padding: 30px;
-}
-
 #nav a {
   font-weight: bold;
   color: #2c3e50;
@@ -55,6 +50,4 @@ h5 {
 #nav a.router-link-exact-active {
   color: #42b983;
 }
-
-
 </style>
