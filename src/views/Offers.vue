@@ -1,21 +1,21 @@
 <template>
   <div id="offers">
     <div
-      class="bg-image justify-content-center"
+      class="bg-image headerContent justify-content-center"
       style="
-        height:60vh;
-        width:100vw;
+        height: 60vh;
+        width: 100vw;
         background-image: url('https://res.cloudinary.com/dsfbhbeyt/image/upload/v1619953742/carousel1_jktwrb.webp');
-        background-attachment:fixed;
-        background-position:center;
-        background-repeat:no-repeat;
-        background-size:cover;
-        "
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+      "
     >
       <p class="offersTitle">Encontre o seu trabalho aqui</p>
 
       <div class="headerDropdowns row justify-content-lg-center">
-        <div class="typeDrop col-lg-6 mb-4">
+        <div class="typeDrop col-lg-4">
           <label for="#dropdownType"> Tipo de Oferta</label>
           <div class="dropdown" id="dropdownType">
             <button
@@ -39,7 +39,7 @@
           </div>
         </div>
 
-        <div class="cursoDrop col-lg-6">
+        <div class="cursoDrop col-lg-4">
           <label for="#dropdownCurso">Curso Frequentado</label>
           <div class="dropdown" id="dropdownCurso">
             <button
@@ -62,6 +62,10 @@
             </div>
           </div>
         </div>
+        <div class="companyFilter col-lg-4">
+          <label for="searchCompany">Empresa</label>
+          <input type="text" id="searchCompany" class="form-control filterCompanyInput" placeholder="Empresa" aria-label="Empresa">
+        </div>
       </div>
     </div>
 
@@ -77,7 +81,7 @@
         class="d-flex justify-content-center"
       >
         <b-card
-          class="cardOffer mb-4"
+          class="cardOffer mb-4 border-0"
           :img-src="getLogobyId(offer.id_Company)"
           img-left
         >
@@ -196,10 +200,7 @@ html {
   overflow-x: hidden;
 }
 
-.offersHeader {
-  position: relative;
-  display: inline-block;
-}
+
 
 .buttonHeader {
   border-radius: 5px;
@@ -220,22 +221,36 @@ html {
   cursor: pointer;
 }
 
-.offersTitle{
-  font-size: 4.5vmax;
+.offersTitle {
+  font-size: 3.5vmax;
   font-weight: bold;
   color: white;
-  padding-top: 100px;
+  padding-top: 35px;
+}
+
+.typeDrop label {
+  color: white;
+  font-size: 3vmin;
+  
+
+}
+
+.cursoDrop label {
+  color: white;
+  font-size: 3vmin;
+
+}
+
+.companyFilter label{
+  color: white;
+  font-size: 3vmin;
   
 }
 
-.typeDrop label{
-  color: white;
-  font-size: 4.5vmin;
-}
-
-.cursoDrop label{
-  color: white;
-  font-size: 4.5vmin;
+.filterCompanyInput{
+  width: 200px !important;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .filterCard {
@@ -253,22 +268,13 @@ ul {
   padding-left: 5px;
 }
 .cardOffer {
-  box-shadow: 0 0 10px #0f4c81;
-  width: 50rem;
+  box-shadow: rgba(15, 76, 129, 0.4) 0px 10px 20px, rgba(200, 200, 200, 0.23) 0px 6px 6px;
   height: 17rem;
 }
 .iconOffer {
   color: #e2583e !important;
 }
 
-#ruler {
-  background-color: #0f4c81;
-}
-#btnFilter {
-  margin-top: 1vh;
-  margin-bottom: 1vh;
-  background-color: #0f4c81;
-}
 #seeMoreOffer {
   background-color: #0f4c81;
 }

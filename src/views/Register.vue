@@ -1,6 +1,74 @@
-
 <template>
-  <div class="register">
+  <div class="row">
+    <div class="registerContent ml-auto mr-auto">
+      <div class="registerHeader">
+        <img src="../assets/logo/whiteLogo.png" />
+      </div>
+      <div class="registerForm">
+        <form @submit.prevent="register">
+          <div class="row justify-content-center">
+            <input
+              type="text"
+              class="form-control col-lg-4 inputRegister"
+              placeholder="Nome"
+              aria-label="Nome"
+              aria-describedby="basic-addon1"
+              v-model="send.fname"
+            />
+            <input
+              type="text"
+              class="form-control col-lg-4 inputRegister"
+              placeholder="Apelido"
+              aria-label="Apelido"
+              aria-describedby="basic-addon1"
+              v-model="send.lname"
+            />
+          </div>
+          <div class="row justify-content-center">
+            <input
+              type="password"
+              class="form-control col-lg-4 inputRegister"
+              placeholder="Password"
+              aria-label="Password"
+              aria-describedby="basic-addon1"
+              v-model="send.password"
+            />
+            <input
+              type="password"
+              class="form-control col-lg-4 inputRegister"
+              placeholder="Confirme a Password"
+              aria-label="Confirme a Password"
+              aria-describedby="basic-addon1"
+              v-model="confPassword"
+            />
+          </div>
+          <div class="row justify-content-center">
+            <input
+              type="email"
+              class="form-control col-lg-4 inputRegister"
+              placeholder="Email"
+              aria-label="Email"
+              aria-describedby="basic-addon1"
+              v-model="send.email"
+            />
+            <input
+              type="text"
+              class="form-control col-lg-4 inputRegister"
+              placeholder="Número Alumni"
+              aria-label="Número Alumni"
+              aria-describedby="basic-addon1"
+              v-model="send.nrAluno"
+            />
+          </div>
+          <button type="submit" class="btn btnRegister" id="btnSubmit">
+            Registar
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="register">
     
     <router-link to="/auth/login">Login</router-link> |
     <router-link to="/auth/Register">Register</router-link>
@@ -113,41 +181,47 @@
         </b-card>
       </div>
     </b-container>
-  </div>
+  </div> -->
 </template>
 
 <style>
-
-/* body {
-  background-image: url("../assets/back.svg");
-  background-repeat: no-repeat;
-  background-size: 100%;
-} */
-#form-area {
-  background-color: white;
-}
-.cardRegister {
-  box-shadow: 0 0 15px #0f4c81;
-  width: 50vw !important;
-
-  margin-top: 5vw;
-}
-.input{
-  margin:0.5vh
-}
-.iconPrepend {
-  background-color: #e2583e !important;
-  color: white;
+.registerContent {
+  background: rgb(70, 117, 158);
+  background: linear-gradient(
+    0deg,
+    rgba(70, 117, 158, 1) 0%,
+    rgba(15, 76, 129, 1) 100%
+  );
+  width: 600px;
+  padding: 50px 0 50px 0;
+  margin-top: 80px;
+  margin-bottom: 80px;
+  border-radius: 20px;
 }
 
-#btnSubmit {
-  border-radius:16px;
-  background-color: #e2583e;
-  width: 100px;
+.registerHeader {
+  margin-bottom: 20px;
+}
+
+.registerHeader img {
+  width: 120px;
+}
+
+.inputRegister {
+  width: 60%;
+  margin: 0 10px 5px 10px;
+  background-color: transparent;
   border: none;
+  border-bottom: 1px solid white;
 }
-#msgHelp {
-  font-size: 13px;
+.inputRegister:focus {
+  background-color: transparent;
+  outline: none !important;
+  outline-width: 0px !important;
+}
+
+.inputRegister::placeholder {
+  color: white;
 }
 </style>
 
@@ -157,7 +231,6 @@ export default {
   name: "Register",
   data() {
     return {
-      
       confPassword: "",
       send: {
         fname: "",
@@ -165,16 +238,16 @@ export default {
         email: "",
         nrAluno: "",
         password: "",
-        type: 'user',
-        cv: '',
-        facebook:'',
-        instagram:'',
-        linkedin:'',
-        photo: '',
-        estado: 'pendente',
-        curso: '',
-        pontos: 0
-      }
+        type: "user",
+        cv: "",
+        facebook: "",
+        instagram: "",
+        linkedin: "",
+        photo: "",
+        estado: "pendente",
+        curso: "",
+        pontos: 0,
+      },
     };
   },
   methods: {
@@ -186,9 +259,8 @@ export default {
           //saltar para a view Login
           this.$router.push({ name: "Login" });
         } else {
-          alert('Passwords não coincidem!')
+          alert("Passwords não coincidem!");
         }
-        
       } catch (error) {
         alert(error);
       }
