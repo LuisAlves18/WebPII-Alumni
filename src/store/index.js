@@ -1,6 +1,8 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
+import { EventService } from '../services/events_service';
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -57,55 +59,7 @@ export default new Vuex.Store({
             about: "A MOXY é um estúdio de software e design que busca o equilíbrio entre impacto, excelência e pragmatismo. Chamamos a isso de Projeto de Engenharia. Com mais de 30 anos de experiência combinada em desenvolvimento de software e produto na equipa de gestão, uma lista de clientes e parceiros de negócios de alto nível nos setores de entretenimento e tecnologia confirmam que a MOXY é um estúdio de software e design com foco na qualidade e na experiência do utilizador.'//'Tu, um Engenheiro de Full-stack, farás parte de uma equipa que se move rapidamente, com espírito de inovação constante e não tem medo de abraçar novas tecnologias e desafios. Tu farás parte do processo de design e arquitetura de todas as camadas de software, desenvolvendo serviços de alto desempenho e resilientes e construindo interfaces de utilizador ricas e interativas."
         }],
 
-        events: localStorage.getItem('events') ? JSON.parse(localStorage.getItem('events')) : [{
-            id: 1,
-            id_event_type: 1,
-            name: 'Front-end For Dummies',
-            price: 0,
-            description: "In addition to “front-facing” technical capabilities in web development, which affect things that users see and click or tap, there are back-end software development jobs as well.",
-            photo: 'https://news.artnet.com/app/news-upload/2017/02/Interior-shot-256x256.jpg',
-            date_time_event: '2021-02-20/15:00',
-            date_limit: '2021-02-18',
-            link: '',
-            address: 'Rua D. Sancho I, n.º 981 4480-876 Vila do Conde',
-            nrLimit: 100
-        }, {
-            id: 2,
-            id_event_type: 1,
-            name: 'Front-end For Dummies',
-            price: 0,
-            description: "In addition to “front-facing” technical capabilities in web development, which affect things that users see and click or tap, there are back-end software development jobs as well.",
-            photo: 'https://news.artnet.com/app/news-upload/2017/02/Interior-shot-256x256.jpg',
-            date_time_event: '2021-02-22/15:00',
-            date_limit: '2021-02-18',
-            link: '',
-            address: 'Rua D. Sancho I, n.º 981 4480-876 Vila do Conde',
-            nrLimit: 100
-        }, {
-            id: 3,
-            id_event_type: 1,
-            name: 'Front-end For Dummies',
-            price: 0,
-            description: "In addition to “front-facing” technical capabilities in web development, which affect things that users see and click or tap, there are back-end software development jobs as well.",
-            photo: 'https://news.artnet.com/app/news-upload/2017/02/Interior-shot-256x256.jpg',
-            date_time_event: '2021-02-23/15:00',
-            date_limit: '2021-02-18',
-            link: '',
-            address: 'Rua D. Sancho I, n.º 981 4480-876 Vila do Conde',
-            nrLimit: 100
-        }, {
-            id: 4,
-            id_event_type: 1,
-            name: 'Front-end For Dummies',
-            price: 0,
-            description: "In addition to “front-facing” technical capabilities in web development, which affect things that users see and click or tap, there are back-end software development jobs as well.",
-            photo: 'https://news.artnet.com/app/news-upload/2017/02/Interior-shot-256x256.jpg',
-            date_time_event: '2021-02-24/15:00',
-            date_limit: '2021-02-18',
-            link: '',
-            address: 'Rua D. Sancho I, n.º 981 4480-876 Vila do Conde',
-            nrLimit: 100
-        }],
+        events: [],
         events_type: localStorage.getItem('events-type') ? JSON.parse(localStorage.getItem('events-type')) : [{
                 id: 1,
                 description: 'Evento'
@@ -206,22 +160,25 @@ export default new Vuex.Store({
         ]
     },
     getters: {
+        getEvents: (state) => state.events,
         getLoggedUser: (state) => state.loggedUser,
         isLoggedUser: (state) => state.loggedUser == '' ? false : true,
         isLoggedAdmin: (state) => state.loggedUser.type == 'admin' ? true : false
     },
     actions: {
-        login(context, payload) {
-            //verificar se este user ja existe
-            const user = context.state.users.find(user => user.email === payload.email && user.password === payload.password && user.estado == 'disponivel')
-            if (user != undefined) {
-                //login com sucesso
-                context.commit('LOGIN', user)
-                sessionStorage.setItem('loggedUser', JSON.stringify(user))
-            } else {
-                //login sem sucesso
-                throw Error('Login Inválido')
+        /* async login({ commit }, user) {
+            try {
+                const loggedUser = await AuthService.login(user);
+                commit('loginSuccess', loggedUser);
+            } catch (error) {
+                commit('loginFailure');
+                throw error;
             }
+        }, */
+        async getAPIRoot({ commit }) {
+            const result = await EventService.getPublicContent()
+            console.log('pedido')
+            commit("SET_MESSAGE", result.message);
         },
         logout(context) {
             context.commit('LOGOUT')
@@ -237,6 +194,23 @@ export default new Vuex.Store({
             } else {
                 //register sem sucesso
                 throw Error('Utilizador já existente!')
+            }
+        },
+        async fetchAllEvents({ commit }) {
+            try {
+                console.log('pedido feito')
+                const events = await EventService.fetchAllEvents();
+                console.log('STORE events: ' + events.length)
+                commit('SET_EVENT', events);
+
+                //return Promise.resolve(users);
+            } catch (error) {
+                // console.log('STORE listUsers: ' + error);
+                console.log("error")
+                commit('SET_EVENT', []);
+                commit("SET_MESSAGE", error);
+                throw error; // Needed to continue propagating the error
+                //return Promise.reject(error);
             }
         },
         editProfile(context, payload) {
@@ -356,6 +330,9 @@ export default new Vuex.Store({
         }
     },
     mutations: {
+        SET_MESSAGE(state, payload) {
+            state.message = payload
+        },
         LOGIN(state, user) {
             state.loggedUser = user
         },
@@ -397,7 +374,6 @@ export default new Vuex.Store({
                 return user;
             })
         },
-
         REMOVECOMPANY(state, payload) {
             state.companies = state.companies.filter(company => company.id != payload)
         },
@@ -423,6 +399,10 @@ export default new Vuex.Store({
         //eventos
         REMOVEEVENT(state, payload) {
             state.events = state.events.filter(event => event.id != payload)
+        },
+        SET_EVENT(state, payload) {
+            console.log("STORE MUTATION SET_EVENTS: " + payload.length)
+            state.events = payload
         },
         ADDEVENT(state, payload) {
             const newEvent = {
