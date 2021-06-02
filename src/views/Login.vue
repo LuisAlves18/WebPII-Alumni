@@ -1,6 +1,45 @@
 <template>
-  <div class="login">
-    
+  <div class="row justify-content-center rowLogin">
+    <div class="left">
+      <div class="contentLeft">
+        <form id="form-login" @submit.prevent="login">
+          <h4>Sign In</h4>
+          <input
+            type="email"
+            class="form-control inputEmail"
+            aria-describedby="emailHelp"
+            placeholder="Enter email"
+            v-model="email"
+          />
+          <input
+            type="password"
+            class="form-control inputPassword"
+            aria-describedby="passwordHelp"
+            placeholder="Password"
+            v-model="password"
+          />
+          <button type="submit" class="btn btnLogin" id="btnSubmit">
+            Login
+          </button>
+        </form>
+      </div>
+    </div>
+    <div class="right">
+      <div class="rightContent">
+        <img class="imgLogin" src="../assets/logo/whiteLogo.png" />
+        <p>
+          O teu FUTURO começa agora! Propostas de Emprego, Eventos e muito mais
+        </p>
+        <button class="btn btnRegister">
+          <router-link :to="{ name: 'Register' }" class="registerAnchor"
+            >Registar</router-link
+          >
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="login">
     <router-link to="/auth/login">Login</router-link> |
     <router-link to="/auth/Register">Register</router-link>
 
@@ -56,51 +95,93 @@
         </b-card>
       </div>
     </b-container>
-  </div>
+  </div> -->
 </template>
 <style>
-/* html {
-  background-image: url("../assets/back.svg");
-  background-repeat: no-repeat;
-  background-size: 100%;
-} */
-.cardLogin {
-  box-shadow: 0 0 15px #0f4c81;
-  width: 30vw !important;
-  margin-top: 5vw;
+.rowLogin {
+  margin-top: 100px;
+  margin-bottom: 100px;
 }
-.iconLogin {
-  background-color: #e2583e !important;
-  color: white;
-}
-.inputLogin:focus {
-  box-shadow: none !important;
-  border: 1px solid rgb(102, 184, 255);
-}
-.logoImg {
-  width: 150px;
-  margin-bottom: 15px;
-  margin-top: 15px;
+.left {
+  width: 350px;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  box-shadow: rgba(15, 76, 129, 0.4) 0px 10px 20px,
+    rgba(200, 200, 200, 0.23) 0px 6px 6px;
 }
 
-#btnSubmit {
-  border-radius: 5px;
-  background-color: #e2583e;
-  width: 100px;
-  border: none;
+.contentLeft {
+  padding: 85px 30px 85px 30px;
 }
-#btnSubmit:focus {
-  outline: none !important;
-  box-shadow: none !important;
+
+.leftContent h4 {
+  margin-bottom: 20px;
 }
-.registerMsg {
-  padding-top: 15px;
-  font-size: 13px;
+
+.inputEmail {
+  margin-bottom: 10px;
 }
+
+.inputPassword {
+  margin-bottom: 15px;
+}
+
+.btnLogin {
+  background-color: #ff4b2b !important;
+  color: white;
+  border-radius: 500px !important;
+  text-transform: uppercase;
+}
+
+.btnLogin:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+.right {
+  width: 350px;
+  background: rgb(70, 117, 158);
+  background: linear-gradient(
+    0deg,
+    rgba(70, 117, 158, 1) 0%,
+    rgba(15, 76, 129, 1) 100%
+  );
+  color: white;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  box-shadow: rgba(15, 76, 129, 0.4) 0px 10px 20px 0px,
+    rgba(200, 200, 200, 0.23) 0px 6px 16px 0px;
+}
+
+.rightContent {
+  padding: 85px 30px 85px 30px;
+}
+
+.imgLogin {
+  width: 90px;
+  margin-bottom: 30px;
+}
+
+.btnRegister {
+  color: white !important;
+  border: 1px solid white;
+  border-radius: 500px;
+  text-transform: uppercase;
+  margin-top: 12px;
+}
+
+.btnRegister:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+.registerAnchor {
+  color: white;
+}
+
 .registerAnchor:hover {
-  color: #e2583e;
-  transition: 0.5s ease-in-out;
-  text-decoration: none !important;
+  color: white;
+  text-decoration: underline;
 }
 </style>
 <script>
@@ -127,5 +208,3 @@ export default {
   },
 };
 </script>
-
-
