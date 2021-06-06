@@ -123,14 +123,24 @@ export default {
       flrEventName: "",
     };
   },
+  
+  methods:{
+  async storeEvents() {
+      await this.$store.dispatch("fetchAllEvents");
+    },
+  },
+  mounted(){
+    this.storeEvents()
+  },
   computed: {
-    filteredEvents() {
+     filteredEvents() {    
       return this.$store.state.events.filter((event) => {
         if (event.name.includes(this.flrEventName)) {
           return true;
         }
       });
-    },
+    }, 
   },
 };
+
 </script>

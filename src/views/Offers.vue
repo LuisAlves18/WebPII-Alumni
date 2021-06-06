@@ -82,27 +82,27 @@
       >
         <b-card
           class="cardOffer mb-4 border-0"
-          :img-src="getLogobyId(offer.id_Company)"
+          :img-src="offer.company.logo"
           img-left
         >
           <b-card-body>
             <div>
               <b-card-title class="d-flex justify-content-left">{{
-                getCompanyById(offer.id_Company)
+                offer.company.name
               }}</b-card-title>
               <b-card-sub-title class="d-flex justify-content-left mb-1">{{
-                getAreaById(offer.id_area)
+                getAreaById(offer.areaId)
               }}</b-card-sub-title>
               <b-card-text class="d-flex justify-content-left mt-3">
                 <ul>
                   <p class="text-left">
                     <i class="fas fa-list iconOffer"></i>
-                    {{ getTypeById(offer.id_type_offer) }}
+                    {{ getTypeById(offer.typeOfferId) }}
                   </p>
 
                   <p class="text-left">
                     <i class="fas fa-map-marker-alt iconOffer"></i>
-                    {{ getLocationById(offer.id_Company) }}
+                    {{ offer.company.address }}
                   </p>
                 </ul>
               </b-card-text>
@@ -157,9 +157,19 @@ export default {
       return this.$store.state.companies.find((company) => company.id === id)
         .address;
     },
+    async storeOffers() {
+      await this.$store.dispatch("fetchAllOffers");
+      console.log(this.$store.state.offers)
+     
+    },
+  },
+  mounted(){
+    this.storeOffers()
   },
   computed: {
+    
     filteredOffers() {
+      console.log(this.$store.state.offers)
       return this.$store.state.offers.filter((offer) => {
         let filterOffersType = true;
         let filterOffersArea = true;
@@ -167,7 +177,7 @@ export default {
         let checkedAreaLth = this.checkedArea.length;
         if (checkedTypeLth != 0) {
           for (let i = 0; i < checkedTypeLth; i++) {
-            if (offer.id_type_offer == this.checkedType[i]) {
+            if (offer.typeOfferId == this.checkedType[i]) {
               filterOffersType = true;
             } else {
               filterOffersType = false;
@@ -178,7 +188,7 @@ export default {
         }
         if (checkedAreaLth != 0) {
           for (let i = 0; i < checkedAreaLth; i++) {
-            if (offer.id_type_offer == this.checkedArea[i]) {
+            if (offer.typeOfferId == this.checkedArea[i]) {
               filterOffersArea = true;
             } else {
               filterOffersArea = false;

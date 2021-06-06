@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 import { EventService } from '../services/events_service';
+import { OfferService } from '../services/offers_service';
 
 Vue.use(Vuex);
 
@@ -48,7 +49,7 @@ export default new Vuex.Store({
         companyProfileContent: '',
         eventsProfileContent: '',
         offersProfileContent: '',
-        companies: localStorage.getItem('companies') ? JSON.parse(localStorage.getItem('companies')) : [{
+        /*   companies: localStorage.getItem('companies') ? JSON.parse(localStorage.getItem('companies')) : [{
             id: 1,
             name: 'Moxy',
             email: 'hello@moxy.studio',
@@ -58,7 +59,7 @@ export default new Vuex.Store({
             linkedIN: 'https://linkedIn/moxystudio',
             about: "A MOXY é um estúdio de software e design que busca o equilíbrio entre impacto, excelência e pragmatismo. Chamamos a isso de Projeto de Engenharia. Com mais de 30 anos de experiência combinada em desenvolvimento de software e produto na equipa de gestão, uma lista de clientes e parceiros de negócios de alto nível nos setores de entretenimento e tecnologia confirmam que a MOXY é um estúdio de software e design com foco na qualidade e na experiência do utilizador.'//'Tu, um Engenheiro de Full-stack, farás parte de uma equipa que se move rapidamente, com espírito de inovação constante e não tem medo de abraçar novas tecnologias e desafios. Tu farás parte do processo de design e arquitetura de todas as camadas de software, desenvolvendo serviços de alto desempenho e resilientes e construindo interfaces de utilizador ricas e interativas."
         }],
-
+ */
         events: [],
         events_type: localStorage.getItem('events-type') ? JSON.parse(localStorage.getItem('events-type')) : [{
                 id: 1,
@@ -91,39 +92,7 @@ export default new Vuex.Store({
             }
         ],
         enrollments: localStorage.getItem('enrollments') ? JSON.parse(localStorage.getItem('enrollments')) : [],
-        offers: localStorage.getItem('offers') ? JSON.parse(localStorage.getItem('offers')) : [{
-            id: 1,
-            id_Company: 1,
-            id_type_offer: 2,
-            id_area: 4,
-            description: 'Precisa-se de aluno para Estágio profissional.',
-            emailContact: 'adminMoxy@moxy.com',
-            duration: '6 Meses'
-        }, {
-            id: 2,
-            id_Company: 1,
-            id_type_offer: 2,
-            id_area: 4,
-            description: 'Precisa-se de aluno para Estágio profissional.',
-            emailContact: 'adminMoxy@moxy.com',
-            duration: '6 Meses'
-        }, {
-            id: 3,
-            id_Company: 1,
-            id_type_offer: 2,
-            id_area: 4,
-            description: 'Precisa-se de aluno para Estágio profissional.',
-            emailContact: 'adminMoxy@moxy.com',
-            duration: '6 Meses'
-        }, {
-            id: 4,
-            id_Company: 1,
-            id_type_offer: 2,
-            id_area: 4,
-            description: 'Precisa-se de aluno para Estágio profissional.',
-            emailContact: 'adminMoxy@moxy.com',
-            duration: '6 Meses'
-        }],
+        offers: [],
         offers_type: localStorage.getItem('offers-type') ? JSON.parse(localStorage.getItem('offers-type')) : [{
                 id: 1,
                 description: 'Oferta Profissional'
@@ -139,23 +108,33 @@ export default new Vuex.Store({
         ],
         areas: localStorage.getItem('areas') ? JSON.parse(localStorage.getItem('areas')) : [{
                 id: 1,
-                description: 'e-commerce'
-            },
-            {
-                id: 2,
                 description: 'design'
             },
             {
+                id: 2,
+                description: 'fotografia'
+            },
+            {
                 id: 3,
-                description: 'UI/UX'
+                description: 'multimedia'
             },
             {
                 id: 4,
-                description: 'WebDev'
+                description: 'comunicação audio-visual'
             },
             {
                 id: 5,
-                description: 'Audiovisual'
+                description: 'desenvolvedor UI/UX'
+            }, {
+                id: 6,
+                description: 'desenvolvedor software'
+            }, {
+                id: 7,
+                description: 'desenvolvedor produtos Web'
+            },
+            {
+                id: 8,
+                description: 'admin'
             }
         ]
     },
@@ -208,6 +187,35 @@ export default new Vuex.Store({
                 // console.log('STORE listUsers: ' + error);
                 console.log("error")
                 commit('SET_EVENT', []);
+                commit("SET_MESSAGE", error);
+                throw error; // Needed to continue propagating the error
+                //return Promise.reject(error);
+            }
+        },
+        /* async fetchOneEvent({ commit }, eventID) {
+            try {
+                console.log('pedido individual do evento')
+                return await EventService.fetchOneEvent(eventID);
+            } catch (error) {
+                console.log("error")
+                commit("SET_MESSAGE", error);
+                throw error; // Needed to continue propagating the error
+                //return Promise.reject(error);
+            }
+        }, */
+
+        async fetchAllOffers({ commit }) {
+            try {
+                console.log('pedido feito')
+                const offers = await OfferService.fetchAllOffers();
+                console.log('STORE offers: ' + offers.length)
+                commit('SET_OFFER', offers);
+
+
+            } catch (error) {
+                // console.log('STORE listUsers: ' + error);
+                console.log("error")
+                commit('SET_OFFER', []);
                 commit("SET_MESSAGE", error);
                 throw error; // Needed to continue propagating the error
                 //return Promise.reject(error);
@@ -397,12 +405,12 @@ export default new Vuex.Store({
             })
         },
         //eventos
-        REMOVEEVENT(state, payload) {
-            state.events = state.events.filter(event => event.id != payload)
-        },
         SET_EVENT(state, payload) {
             console.log("STORE MUTATION SET_EVENTS: " + payload.length)
             state.events = payload
+        },
+        REMOVEEVENT(state, payload) {
+            state.events = state.events.filter(event => event.id != payload)
         },
         ADDEVENT(state, payload) {
             const newEvent = {
@@ -491,6 +499,10 @@ export default new Vuex.Store({
                     user.pontos = user.pontos - 1
                 }
             })
+        },
+        SET_OFFER(state, payload) {
+            console.log("STORE MUTATION SET_OFFER: " + payload.length)
+            state.offers = payload
         },
         SEEMOREOFFER(state, payload) {
             state.offersProfileContent = payload;

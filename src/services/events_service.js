@@ -21,6 +21,24 @@ export const EventService = {
         }
 
     },
+    async fetchOneEvent(eventID) {
+
+        const response = await fetch(`${API_URL}/events/${eventID}`, {
+            method: "GET",
+
+        });
+        if (response.ok) {
+            let data = await response.json();
+            // console.log("USER SERVICE - fetch ALL USERS")
+            console.log(data)
+            return data;
+        } else {
+            // console.log("USER SERVICE - fetch ALL USERS: ERROR ");
+            // console.log(response)
+            throw Error(handleResponses(response.status));
+        }
+
+    },
     async getPublicContent() {
         // return axios.get(API_URL);
         const response = await fetch(`${API_URL}`, {

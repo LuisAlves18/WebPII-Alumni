@@ -6,8 +6,8 @@
           <h4 class="float-left mb-3">{{ currentEvent.name }}</h4>
           <img class="img-fluid" :src="currentEvent.photo" />
           <div class="eventDate">
-            <p class="eventDay">{{ currentEvent.date_time_event.split("/")[0].split("-")[2] }} / {{ currentEvent.date_time_event.split("/")[0].split("-")[1] }}</p>
-            <p class="eventTime">{{ currentEvent.date_time_event.split("/")[1]}}</p>
+            <p class="eventDay">{{ currentEvent.date_time_event.split("T")[0].split("-")[2] }} / {{ currentEvent.date_time_event.split("/")[0].split("-")[1] }}</p>
+            <p class="eventTime">{{ currentEvent.date_time_event.split("T")[1]}}</p>
           </div>
           <div v-if="this.enrolled == undefined">
             <button
@@ -52,6 +52,7 @@
 
 <script>
 /* eslint-disable */
+import { EventService } from '../services/events_service';
 export default {
   name: "EventsView",
   data() {
@@ -98,12 +99,17 @@ export default {
       } catch (error) {
         alert(error);
       }
-    }
+    },
+    async getOneEvent(){
+      
+      this.currentEvent = await EventService.fetchOneEvent(this.$route.params.EventId)
+
+    } 
   },
   created() {
-    this.currentEvent = this.$store.state.events.find(
+    /* this.currentEvent = this.$store.state.events.find(
       (event) => event.id === this.$route.params.EventId
-    );
+    ); */
 
     this.enrolled = this.$store.state.enrollments.find((enrollment) => {
       if (enrollment.idEvent == this.currentEvent.id) {
@@ -119,6 +125,9 @@ export default {
 
     //console.log('enrolled', this.enrolled);
   },
+  mounted(){
+    this.getOneEvent()
+  }
 };
 </script>
 
