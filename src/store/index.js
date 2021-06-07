@@ -3,47 +3,15 @@ import Vuex from "vuex";
 
 import { EventService } from '../services/events_service';
 import { OfferService } from '../services/offers_service';
+import { AuthService } from '../services/auth_service';
+//import { UserService } from '../services/user_service';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
-        users: localStorage.getItem('users') ?
-            JSON.parse(localStorage.getItem('users')) : [{
-                    nrAluno: 11111111,
-                    fname: 'User',
-                    lname: 'Name',
-                    email: 'username@gmail.com',
-                    password: 'Esmad_2021',
-                    curso: 'TSIW',
-                    estado: 'disponivel',
-                    type: 'user',
-                    cv: '',
-                    facebook: '',
-                    instagram: '',
-                    linkedin: '',
-                    photo: '',
-                    pontos: 0
-                },
-
-                {
-                    nrAluno: 10000000,
-                    fname: 'Admin',
-                    lname: 'Admin',
-                    email: 'admin@hotmail.com',
-                    password: 'Esmad_2021',
-                    curso: '',
-                    estado: 'disponivel',
-                    type: 'admin',
-                    cv: '',
-                    facebook: '',
-                    instagram: '',
-                    linkedin: '',
-                    photo: '',
-                    pontos: 0
-                }
-            ],
-
+        users: [],
+        loggedIn:'',
         loggedUser: sessionStorage.getItem('loggedUser') ? JSON.parse(sessionStorage.getItem('loggedUser')) : '',
         userProfileContent: '',
         companyProfileContent: '',
@@ -61,23 +29,7 @@ export default new Vuex.Store({
         }],
  */
         events: [],
-        events_type: localStorage.getItem('events-type') ? JSON.parse(localStorage.getItem('events-type')) : [{
-                id: 1,
-                description: 'Evento'
-            },
-            {
-                id: 2,
-                description: 'Workshop'
-            },
-            {
-                id: 3,
-                description: 'Curso de Formação'
-            },
-            {
-                id: 4,
-                description: 'Curso de Especialização'
-            }
-        ],
+        events_type: [],
         guests: localStorage.getItem('guests') ? JSON.parse(localStorage.getItem('guests')) : [{
                 id: 1,
                 idEvent: 1,
@@ -145,35 +97,41 @@ export default new Vuex.Store({
         isLoggedAdmin: (state) => state.loggedUser.type == 'admin' ? true : false
     },
     actions: {
-        /* async login({ commit }, user) {
-            try {
-                const loggedUser = await AuthService.login(user);
-                commit('loginSuccess', loggedUser);
-            } catch (error) {
-                commit('loginFailure');
-                throw error;
-            }
-        }, */
         async getAPIRoot({ commit }) {
             const result = await EventService.getPublicContent()
             console.log('pedido')
             commit("SET_MESSAGE", result.message);
         },
+        async login({ commit }, user) {
+            try {
+              const loggedUser = await AuthService.login(user);
+              commit('LOGIN_SUCCESS', loggedUser);
+              
+            }
+            catch (error) {
+               commit('LOGIN_FAILURE'); 
+              
+              throw error;
+            }
+          },
         logout(context) {
             context.commit('LOGOUT')
             sessionStorage.removeItem('loggedUser')
         },
-        register(context, payload) {
+        async register({ commit },user) {
             //verificar se ja existe este user
-            const user = context.state.users.find(user => user.email === payload.email)
-            if (user == undefined) {
-                //registo com sucesso
-                context.commit('REGISTER', payload)
-                localStorage.setItem('users', JSON.stringify(context.state.users))
-            } else {
-                //register sem sucesso
-                throw Error('Utilizador já existente!')
-            }
+            try {
+                const response = await AuthService.register(user);
+                // console.log("STORE REGISTER SUCCES: response is...")
+                // console.log(response)
+                commit('REGISTER',user)
+                commit('SET_MESSAGE', response.message);
+              }
+              catch (error) {
+                console.log('STORE REGISTER FAILS')
+                console.log(error)
+                throw error;
+              }
         },
         async fetchAllEvents({ commit }) {
             try {
@@ -192,18 +150,6 @@ export default new Vuex.Store({
                 //return Promise.reject(error);
             }
         },
-        /* async fetchOneEvent({ commit }, eventID) {
-            try {
-                console.log('pedido individual do evento')
-                return await EventService.fetchOneEvent(eventID);
-            } catch (error) {
-                console.log("error")
-                commit("SET_MESSAGE", error);
-                throw error; // Needed to continue propagating the error
-                //return Promise.reject(error);
-            }
-        }, */
-
         async fetchAllOffers({ commit }) {
             try {
                 console.log('pedido feito')
@@ -221,7 +167,9 @@ export default new Vuex.Store({
                 //return Promise.reject(error);
             }
         },
+        
         editProfile(context, payload) {
+
             context.commit('EDITPROFILE', payload)
             localStorage.setItem('users', JSON.stringify(context.state.users))
         },
@@ -341,8 +289,13 @@ export default new Vuex.Store({
         SET_MESSAGE(state, payload) {
             state.message = payload
         },
-        LOGIN(state, user) {
-            state.loggedUser = user
+        LOGIN_SUCCESS(state, payload) {
+            state.loggedIn = true;
+            state.loggedUser = payload;
+        },
+        LOGIN_FAILURE(state) {
+            state.loggedIn = false;
+            state.loggedUser = "";
         },
         LOGOUT(state) {
             state.loggedUser = ''
@@ -359,6 +312,7 @@ export default new Vuex.Store({
         UPDATESTATUS(state, payload) {
             state.users = state.users.map(user => {
                 if (user.email == payload.email) {
+                
                     user.estado = payload.statusChange
                 }
                 return user;

@@ -210,8 +210,6 @@ html {
   overflow-x: hidden;
 }
 
-
-
 .buttonHeader {
   border-radius: 5px;
   background-color: rgb(225, 93, 68) !important;
@@ -241,20 +239,16 @@ html {
 .typeDrop label {
   color: white;
   font-size: 3vmin;
-  
-
 }
 
 .cursoDrop label {
   color: white;
   font-size: 3vmin;
-
 }
 
 .companyFilter label{
   color: white;
   font-size: 3vmin;
-  
 }
 
 .filterCompanyInput{

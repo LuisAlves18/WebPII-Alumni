@@ -211,6 +211,7 @@
 </style>
 
 <script>
+import { UserService } from '../services/user_service';
 export default {
   name: "Profile",
   data() {
@@ -232,7 +233,15 @@ export default {
       },
     };
   },
+  mounted(){
+    this.getOneUser()
+  },
   methods: {
+    async getOneUser(){
+      
+      this.currentUser = await UserService.fetchOneUserByID(this.$store.getters.getLoggedUser.id)
+
+    },
     editProfile() {
       this.$store.dispatch("editProfile", this.$data.send);
     },

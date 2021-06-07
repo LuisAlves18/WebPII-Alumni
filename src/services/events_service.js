@@ -3,8 +3,6 @@ export const EventService = {
 
 
     async fetchAllEvents() {
-        // console.log(" USER SERVICE - fetch ALL USERS started...")
-        // return axios.get(API_URL + 'admin', { headers: authHeader() });
         const response = await fetch(`${API_URL}/events`, {
             method: "GET",
 
@@ -39,6 +37,7 @@ export const EventService = {
         }
 
     },
+    
     async getPublicContent() {
         // return axios.get(API_URL);
         const response = await fetch(`${API_URL}`, {
