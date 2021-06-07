@@ -9,8 +9,8 @@
             </tr>
             <tr v-for="event in this.eventsContent" :key="event.id">
                 <td>{{event.name}}</td>
-                <td>{{getEventTypeById(event.id_event_type)}}</td>
-                <td>Data: {{getDateAndTime(event.date_time_event)[0]}} & Hora:{{getDateAndTime(event.date_time_event)[1]}}</td>
+                <td>{{event.id_event_type}}</td>
+                <td>Data: {{event.date_time_event[0]}} & Hora:{{getDateAndTime(event.date_time_event)[1]}}</td>
                 <td>
                     <b-button @click="seeMoreEvent(event)" class="btns">Detalhes</b-button>
                     <b-button @click="manageEnrollments(event)" class="btns">Inscrições</b-button>
@@ -31,7 +31,14 @@
                 type: Array
             }
         },
+         mounted(){
+    
+        this.storeEvents()
+  },
         methods: {
+            async storeEvents() {
+            await this.$store.dispatch("fetchAllEvents");
+    },
             getEventTypeById(id) {
                 return this.$store.state.events_type.find(type => type.id == id).description
             },

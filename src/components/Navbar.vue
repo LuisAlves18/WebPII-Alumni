@@ -74,7 +74,7 @@
               >
             </b-dropdown-item>
             <b-dropdown-item>
-              <span v-if="this.$store.getters.isLoggedAdmin">
+              <span v-if="this.$store.state.loggedUser.role=='admin'">
                 <router-link class="dropItem" :to="{ name: 'Admin' }"
                   >Gestão de Entidades</router-link
                 >

@@ -42,23 +42,16 @@ export const AuthService = {
         last_name: user.last_name,
         email: user.email,
         password: user.password,
-        cv: "",
-        facebook: "",
-        instagram: "",
-        linkedIn: "",
-        photo: "",
-        points: 0,
-        roleId: 2,
-        statusId: 3, //estado pendente aguarda confirmação de admin
         courseId: user.courseId,
         areaId: user.areaId,
       }),
     });
     if (response.ok) {
       const data = await response.json();
+      console.log(data)
       return data;
     } else {
-      throw Error(handleResponses(response.status));
+      throw Error(response.message);
     }
   },
 };

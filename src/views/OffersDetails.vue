@@ -127,8 +127,8 @@ export default {
   },
   computed: {
     filterCompany() {
-      return this.$store.state.companies.find(
-        (company) => company.id == this.send.id_Company
+      return this.$store.state.offers.find(
+        (offer) => offer.id_Company == this.send.id_Company
       );
     },
   },

@@ -3,7 +3,7 @@
     <b-container class="d-flex justify-content-center">
       <b-row class="content">
         <b-col class="col-lg-4">
-          <b-p class="d-flex justify-content-left">Imagem do Evento</b-p>
+          <p class="d-flex justify-content-left">Imagem do Evento</p>
           <b-card>
             <b-card-text>
               <b-img :src="send.photo"></b-img><br />
@@ -15,7 +15,7 @@
           >
         </b-col>
         <b-col class="col-lg-8">
-          <b-p class="d-flex justify-content-left">Informações Empresa</b-p>
+          <p class="d-flex justify-content-left">Informações Empresa</p>
           <b-card>
             <b-card-text>
               <b-form @submit.prevent="editEvent">
@@ -173,7 +173,7 @@ export default {
   },
   methods: {
     getEventTypeById(id) {
-      return this.$store.state.events_type.find((type) => type.id == id)
+      return this.$store.state.events.find((event) => event.id_event_type == id)
         .description;
     },
     editEvent() {

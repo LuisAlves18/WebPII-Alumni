@@ -13,7 +13,7 @@
               placeholder="Nome"
               aria-label="Nome"
               aria-describedby="basic-addon1"
-              v-model="send.fname"
+              v-model="send.first_name"
             />
             <input
               type="text"
@@ -21,7 +21,7 @@
               placeholder="Apelido"
               aria-label="Apelido"
               aria-describedby="basic-addon1"
-              v-model="send.lname"
+              v-model="send.last_name"
             />
           </div>
           <div class="row justify-content-center">
@@ -57,7 +57,7 @@
               placeholder="Número Alumni"
               aria-label="Número Alumni"
               aria-describedby="basic-addon1"
-              v-model="send.nrAluno"
+              v-model="send.alumni_number"
             />
           </div>
           <button type="submit" class="btn btnRegister" id="btnSubmit">
@@ -119,23 +119,13 @@ export default {
     return {
       confPassword: "",
       send: {
-        nrAluno: "",
-        fname: "",
-        lname: "",
+        alumni_number: "",
+        first_name: "",
+        last_name: "",
         email: "",
-        
         password: "",
-        
-        cv: "",
-        facebook: "",
-        instagram: "",
-        linkedin: "",
-        photo: "",
-        points: 0,
-        roleId: 2,
-        statusId: 3, //estado pendente aguarda confirmação de admin
-        courseId: '',
-        areaId:'',
+        courseId:1,
+        areaId:7,
       },
     };
   },
