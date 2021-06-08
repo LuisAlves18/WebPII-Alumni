@@ -5,10 +5,10 @@
     <b-container class="d-flex justify-content-center">
       <b-row class="content">
         <b-col class="col-lg-4">
-          <b-p class="d-flex justify-content-left">Imagem do Evento</b-p>
+          <p class="d-flex justify-content-left">Imagem do Evento</p>
           <b-card>
             <b-card-text>
-              <b-img :src="send.photo"></b-img><br />
+              <b-img :src="send.photo"></b-img><br/>
               <b-form-input
                 type="url"
                 id="urlPhoto"

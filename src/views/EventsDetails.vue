@@ -7,7 +7,7 @@
           <b-card>
             <b-card-text>
               <b-img :src="send.photo"></b-img><br />
-              <p>{{ getEventTypeById(this.send.id_event_type) }}</p>
+              <p>{{this.send.id_event_type}}</p>
             </b-card-text>
           </b-card>
           <b-button class="d-flex justify-content-center" id="btnAddImage"
@@ -159,6 +159,7 @@ export default {
         description: this.$store.state.eventsProfileContent.description,
         photo: this.$store.state.eventsProfileContent.photo,
         nrLimit: this.$store.state.eventsProfileContent.nrLimit,
+        closed: this.$store.state.eventsProfileContent.closed,
       },
       date: "",
       time: "",
@@ -166,7 +167,7 @@ export default {
   },
   created() {
     const splitDateTime = this.$store.state.eventsProfileContent.date_time_event.split(
-      "/"
+      " "
     );
     this.date = splitDateTime[0];
     this.time = splitDateTime[1];

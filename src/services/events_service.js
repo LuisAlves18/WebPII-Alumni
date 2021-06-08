@@ -50,8 +50,39 @@ export const EventService = {
             return data;
         } else
             throw Error(handleResponses(response.status));
-    }
-
+    },
+    async fetchUpdateEvent(event) {
+        console.log("pedido feito");
+        const response = await fetch(`${API_URL}/events/${event.id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json;charset=utf-8",
+          },
+          body: JSON.stringify({
+            id_event_type: event.id_event_type,
+            name: event.name,
+            date_time_event: event.date_time_event,
+            date_limit: event.date_limit,
+            price: event.price,
+            link: event.link,
+            address: event.address,
+            description: event.description,
+            photo: event.photo,
+            nrLimit: event.nrLimit,
+            closed:event.closed
+        }),
+        });
+        if (response.ok) {
+          let data = await response.json();
+          // console.log("USER SERVICE - fetch ALL USERS")
+          console.log(data);
+          return data;
+        } else {
+          // console.log("USER SERVICE - fetch ALL USERS: ERROR ");
+          // console.log(response)
+          throw Error(handleResponses(response.status));
+        }
+      },
 }
 
 export default EventService;
