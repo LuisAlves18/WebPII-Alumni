@@ -35,7 +35,7 @@
                   <div class="input-group mb-3">
                     <input
                       type="password"
-                      class="form-control inputProfile"
+                      class="form-control inputProfile passwordProfile"
                       placeholder="Password"
                       v-model="send.password"
                     />

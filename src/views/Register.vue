@@ -10,6 +10,7 @@
             <input
               type="text"
               class="form-control col-lg-4 inputRegister"
+              id="firstRegisterInput"
               placeholder="Nome"
               aria-label="Nome"
               aria-describedby="basic-addon1"
@@ -18,6 +19,7 @@
             <input
               type="text"
               class="form-control col-lg-4 inputRegister"
+              id="lastRegisterInput"
               placeholder="Apelido"
               aria-label="Apelido"
               aria-describedby="basic-addon1"
@@ -28,6 +30,7 @@
             <input
               type="password"
               class="form-control col-lg-4 inputRegister"
+              id="passwordRegisterInput"
               placeholder="Password"
               aria-label="Password"
               aria-describedby="basic-addon1"
@@ -36,6 +39,7 @@
             <input
               type="password"
               class="form-control col-lg-4 inputRegister"
+              id="confirmRegisterInput"
               placeholder="Confirme a Password"
               aria-label="Confirme a Password"
               aria-describedby="basic-addon1"
@@ -46,6 +50,7 @@
             <input
               type="email"
               class="form-control col-lg-4 inputRegister"
+              id="emailRegisterInput"
               placeholder="Email"
               aria-label="Email"
               aria-describedby="basic-addon1"
@@ -54,6 +59,7 @@
             <input
               type="text"
               class="form-control col-lg-4 inputRegister"
+              id="numberRegisterInput"
               placeholder="Número Alumni"
               aria-label="Número Alumni"
               aria-describedby="basic-addon1"
