@@ -151,7 +151,8 @@ export default {
         id: this.$store.state.eventsProfileContent.id,
         id_event_type: this.$store.state.eventsProfileContent.id_event_type,
         name: this.$store.state.eventsProfileContent.name,
-        date_time_event: this.$store.state.eventsProfileContent.date_time_event,
+        date: this.$store.state.eventsProfileContent.date,
+        time: this.$store.state.eventsProfileContent.time,
         date_limit: this.$store.state.eventsProfileContent.date_limit,
         price: this.$store.state.eventsProfileContent.price,
         link: this.$store.state.eventsProfileContent.link,
@@ -172,7 +173,9 @@ export default {
     this.date = splitDateTime[0];
     this.time = splitDateTime[1];
   },
+  
   methods: {
+    
     getEventTypeById(id) {
       return this.$store.state.events.find((event) => event.id_event_type == id)
         .description;
@@ -182,7 +185,7 @@ export default {
         this.send.date_time_event = this.date + "/" + this.time;
         try {
           //chamar ação editEvent
-          this.$store.dispatch("editEvent", this.$data.send);
+          //this.$store.dispatch("editEvent", this.$data.send);
           //saltar para a view Admin
           this.$router.push({ name: "Admin" });
         } catch (error) {

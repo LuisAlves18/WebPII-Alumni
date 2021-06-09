@@ -67,8 +67,13 @@ export default {
   mounted(){
     this.storeEvents()
     this.storeOffers()
+    this.storeUsers()
+
   },
   methods: {
+    async storeUsers() {
+            await this.$store.dispatch("fetchAllUsers");
+    },
     async storeOffers() {
       await this.$store.dispatch("fetchAllOffers");
       console.log(this.$store.state.offers);

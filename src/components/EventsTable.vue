@@ -52,7 +52,7 @@
             },
             removeEvent(id) {
                 this.$store.dispatch('removeEvent', id)
-                this.$router.go();
+                //this.$router.go();
             },
             manageEnrollments(event) {
                 this.$store.dispatch('manageEnrollments', event)

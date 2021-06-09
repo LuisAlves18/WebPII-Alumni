@@ -1,7 +1,21 @@
 import API_URL from './config.js'
+function authHeader() {
+    // checks Local Storage for user item
+    let user = JSON.parse(localStorage.getItem('user'));
+    
+  
+    // if there is a logged in user with accessToken (JWT)
+    if (user && user.accessToken) {
+        // return HTTP authorization header for Node.js Express back-end
+        return {
+            'Content-Type': 'application/json',
+            'x-access-token': user.accessToken
+        };
+    } else {
+        return { 'Content-Type': 'application/json' }; //otherwise, return an empty object
+    }
+  }
 export const EventService = {
-
-
     async fetchAllEvents() {
         const response = await fetch(`${API_URL}/events`, {
             method: "GET",
@@ -37,20 +51,6 @@ export const EventService = {
         }
 
     },
-    
-    async getPublicContent() {
-        // return axios.get(API_URL);
-        const response = await fetch(`${API_URL}`, {
-            method: "GET" // requires NO authorization header
-        });
-        if (response.ok) {
-            let data = await response.json();
-            // console.log("USER SERVICE - fetch WELCOMING MESSAGE")
-            // console.log(data) // data = "Welcome to the TUTORIALS api"
-            return data;
-        } else
-            throw Error(handleResponses(response.status));
-    },
     async fetchUpdateEvent(event) {
         console.log("pedido feito");
         const response = await fetch(`${API_URL}/events/${event.id}`, {
@@ -83,6 +83,47 @@ export const EventService = {
           throw Error(handleResponses(response.status));
         }
       },
+      async fetchDeleteEvent(eventID) {
+        const response = await fetch(`${API_URL}/events/${eventID}`, {
+            method: "DELETE",
+            headers:authHeader()
+        });
+        if (response.ok) {
+            let data = await response.json();
+            return data;
+        }
+        else {
+            throw Error(handleResponses(response.status));
+        }
+    },
+    async fetchAllEventTypes(){
+        const response = await fetch(`${API_URL}/eventsType`, {
+            method: "GET",
+            
+        });
+        if (response.ok) {
+            let data = await response.json();
+            console.log(data)
+            return data;
+        } else {
+            // console.log("USER SERVICE - fetch ALL USERS: ERROR ");
+            // console.log(response)
+            throw Error(handleResponses(response.status));
+        }
+    },
+      async getPublicContent() {
+        // return axios.get(API_URL);
+        const response = await fetch(`${API_URL}`, {
+            method: "GET" // requires NO authorization header
+        });
+        if (response.ok) {
+            let data = await response.json();
+            // console.log("USER SERVICE - fetch WELCOMING MESSAGE")
+            // console.log(data) // data = "Welcome to the TUTORIALS api"
+            return data;
+        } else
+            throw Error(handleResponses(response.status));
+    },
 }
 
 export default EventService;

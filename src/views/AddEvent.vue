@@ -27,68 +27,13 @@
               ></b-form-select>
             </b-card-text>
           </b-card>
-          <b-p>Convidados</b-p>
-          <b-card>
-            <b-card-text>
-              <b-form @submit.prevent="addGuest">
-                <b-row>
-                  <b-col class="col-lg-6">
-                    <b-input-group class="mb-3">
-                      <b-form-input
-                        type="text"
-                        id="txtGuestName"
-                        class="inputProf"
-                        placeholder="Nome"
-                        v-model="guest.name"
-                      >
-                      </b-form-input>
-                    </b-input-group>
-                  </b-col>
-                  <b-col class="col-lg-6">
-                    <b-input-group class="mb-3">
-                      <b-form-input
-                        type="text"
-                        id="txtGuestCompany"
-                        class="inputProf"
-                        placeholder="Empresa"
-                        v-model="guest.company"
-                      >
-                      </b-form-input>
-                    </b-input-group>
-                  </b-col>
-                </b-row>
-                <b-row>
-                  <b-button type="submit" class="mb-3"
-                    >Adicionar Convidado</b-button
-                  >
-                </b-row>
-                <b-row>
-                  <b-col class="col-lg-12">
-                    <table>
-                      <tr>
-                        <th>Nome</th>
-                        <th>Empresa</th>
-                        <th>Ações</th>
-                      </tr>
-                      <tr v-for="guest in send.guests" :key="guest.id">
-                        <td>{{ guest.name }}</td>
-                        <td>{{ guest.company }}</td>
-                        <td>
-                          <b-button class="mb-3">Remover</b-button>
-                        </td>
-                      </tr>
-                    </table>
-                  </b-col>
-                </b-row>
-              </b-form>
-            </b-card-text>
-          </b-card>
         </b-col>
         <b-col class="col-lg-8">
           <b-p class="d-flex justify-content-left">Informações Empresa</b-p>
           <b-card>
             <b-card-text>
-              <b-form @submit.prevent="createEvent">
+              <!-- @submit.prevent="createEvent" -->
+              <b-form >
                 <b-row>
                   <b-col class="col-lg-6">
                     <b-input-group class="mb-3">
@@ -209,18 +154,16 @@ export default {
   data() {
     return {
       send: {
-        id: this.getNextId(),
         id_event_type: 0,
         name: "",
         date_time_event: "",
         date_limit: "",
-        price: "",
+        price: 0,
         link: "",
         address: "",
         description: "",
         photo: "",
         nrLimit: 0,
-        guests: [],
       },
       date: "",
       time: "",
@@ -242,51 +185,14 @@ export default {
           text: this.$store.state.events_type[3].description,
         },
       ],
-      guest: {
-        id: 0,
-        name: "",
-        company: "",
-      },
     };
   },
+  mounted(){
+   this.getEventsType()
+  },
   methods: {
-    getNextId() {
-      if (this.$store.state.events.length == 0) {
-        return 1;
-      } else {
-        return (
-          this.$store.state.events[this.$store.state.events.length - 1].id + 1
-        );
-      }
-    },
-    getNextIdGuest() {
-      if (this.send.guests.length == 0) {
-        return 1;
-      } else {
-        return this.send.guests[this.send.guests.length - 1].id + 1;
-      }
-    },
-    createEvent() {
-      this.send.date_time_event = this.date + "/" + this.time;
-      try {
-        //chamar ação addEvent
-        this.$store.dispatch("addEvent", this.$data.send);
-
-        //saltar para a view admin
-        this.$router.push({ name: "Admin" });
-      } catch (error) {
-        alert(error);
-      }
-    },
-    addGuest() {
-      this.guest.id = this.getNextIdGuest();
-      const newGuest = {
-        id: this.guest.id,
-        idEvent: this.send.id,
-        name: this.guest.name,
-        company: this.guest.company,
-      };
-      this.send.guests.push(newGuest);
+    async getEventsType() {
+      await this.$store.dispatch("fetchAllEventTypes");
     },
   },
 };
