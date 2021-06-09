@@ -51,6 +51,31 @@ export const OfferService = {
       throw Error(handleResponses(response.status));
     }
   },
+  async fetchAddOffer(offer) {
+    console.log("pedido feito");
+    const response = await fetch(`${API_URL}/offers/`, {
+      method: "POST",
+      headers:authHeader(),
+      body: JSON.stringify({
+        companyId: offer.companyId,
+        typeOfferId: offer.typeOfferId,
+        areaId: offer.areaId,
+        description: offer.description,
+        emailContact: offer.emailContact,
+        duration: offer.duration,
+      }),
+    });
+    if (response.ok) {
+      let data = await response.json();
+      // console.log("USER SERVICE - fetch ALL USERS")
+      console.log(data);
+      return data;
+    } else {
+      // console.log("USER SERVICE - fetch ALL USERS: ERROR ");
+      // console.log(response)
+      throw Error(handleResponses(response.status));
+    }
+  },
   async fetchUpdateOffer(offer) {
     console.log("pedido feito");
     const response = await fetch(`${API_URL}/offers/${offer.id}`, {
@@ -90,6 +115,25 @@ export const OfferService = {
         throw Error(handleResponses(response.status));
     }
 },
+async fetchAllOffersType() {
+  // console.log(" USER SERVICE - fetch ALL USERS started...")
+  // return axios.get(API_URL + 'admin', { headers: authHeader() });
+  const response = await fetch(`${API_URL}/offersType`, {
+    method: "GET",
+    headers:authHeader()
+  });
+  if (response.ok) {
+    let data = await response.json();
+    // console.log("USER SERVICE - fetch ALL USERS")
+    // console.log(data)
+    return data;
+  } else {
+    // console.log("USER SERVICE - fetch ALL USERS: ERROR ");
+    // console.log(response)
+    throw Error(handleResponses(response.status));
+  }
+},
+
   // sends request to API root
   async getPublicContent() {
     // return axios.get(API_URL);

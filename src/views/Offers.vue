@@ -137,7 +137,29 @@ export default {
       checkedArea: [],
     };
   },
+  mounted(){
+
+    this.storeOffers()
+    
+    this.getAllCompanies()
+    this.getAllOffersType()
+     this.getAllAreas()
+  },
   methods: {
+    async storeOffers() {
+      await this.$store.dispatch("fetchAllOffers");
+      console.log(this.$store.state.offers)
+    },
+    async getAllCompanies(){
+      await this.$store.dispatch("fetchAllCompanies");
+    },
+    async getAllAreas(){
+      await this.$store.dispatch("fetchAllAreas");
+      console.log("areas",this.$store.state.areas)
+    },
+    async getAllOffersType(){
+     await this.$store.dispatch("fetchAllOffersType")
+    },
     getLogobyId(id) {
       return this.$store.state.companies.find((company) => company.id === id)
         .logo;
@@ -157,15 +179,9 @@ export default {
       return this.$store.state.companies.find((company) => company.id === id)
         .address;
     },
-    async storeOffers() {
-      await this.$store.dispatch("fetchAllOffers");
-      console.log(this.$store.state.offers)
-     
-    },
+    
   },
-  mounted(){
-    this.storeOffers()
-  },
+  
   computed: {
     
     filteredOffers() {

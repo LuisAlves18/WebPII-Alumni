@@ -117,7 +117,25 @@ export const CompanyService = {
             throw Error(handleResponses(response.status));
         }
     },
-    
+    async fetchAllAreas() {
+        // console.log(" company SERVICE - fetch ALL companies started...")
+        // return axios.get(API_URL + 'admin', { headers: authHeader() });
+        const response = await fetch(`${API_URL}/areas`, {
+            method: "GET",
+            
+        });
+        if (response.ok) {
+            let data = await response.json();
+            // console.log("companies SERVICE - fetch ALL companies")
+            // console.log(data)
+            return data;
+        } else {
+            // console.log("companies SERVICE - fetch ALL companies: ERROR ");
+            // console.log(response)
+            throw Error(handleResponses(response.status));
+        }
+
+    },
     // sends request to API root
     async getPublicContent() {
         // return axios.get(API_URL);

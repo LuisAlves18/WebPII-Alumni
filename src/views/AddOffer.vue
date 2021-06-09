@@ -10,10 +10,10 @@
               <b-img :src="this.company.logo"></b-img><br />
               <!-- select das empresas + botão de adicionar empresa-->
               <b-form-select
-                v-model="send.id_Company"
+                v-model="send.companyId"
                 size="sm"
                 class="mt-3"
-                @change="getCompany()"
+                @change="getCompany(send.companyId)"
               >
                 <option
                   v-for="company in this.$store.state.companies"
@@ -56,7 +56,7 @@
                     </b-input-group>
                     <b-input-group class="mb-3">
                       <b-form-select
-                        v-model="send.id_type_offer"
+                        v-model="send.typeOfferId"
                         size="sm"
                         class="mt-3"
                       >
@@ -71,7 +71,7 @@
                     </b-input-group>
                     <b-input-group class="mb-3">
                       <b-form-select
-                        v-model="send.id_area"
+                        v-model="send.areaId"
                         size="sm"
                         class="mt-3"
                       >
@@ -126,26 +126,48 @@
 
 <script>
 /* eslint-disable */
+import { CompanyService } from '../services/companies_service';
 export default {
+  
   name: "AddOffer",
   data() {
     return {
       send: {
-        id_Company: "",
-        id_type_offer: "",
-        id_area: "",
+        companyId: "",
+        typeOfferId: "",
+        areaId: "",
         description: "",
         emailContact: "",
         duration: "",
       },
       company: "",
+      areas:[],
+      offersType:[]
     };
   },
-  computed: {
-    
+  mounted() {
+    this.getAllCompanies()
+    this.getAllAreas()
+    this.getAllOffersType()
+
   },
   methods: {
+    async getAllCompanies(){
+      await this.$store.dispatch("fetchAllCompanies");
+    },
+    async getAllAreas(){
+      
+      await this.$store.dispatch("fetchAllAreas");
     
+    },
+   async getAllOffersType(){
+     await this.$store.dispatch("fetchAllOffersType")
+    },
+    async getCompany(id){
+      
+      this.company = await CompanyService.fetchOneCompany(id)
+      console.log("this.company",this.company)
+    },
     addOffer() {
       try {
         //chamar ação addOffer
