@@ -440,7 +440,7 @@ export default new Vuex.Store({
       state.companies = payload;
     },
     SET_AREAS(state, payload) {
-      console.log("STORE MUTATION SET_COMPANIES: " + payload.length);
+      console.log("STORE MUTATION SET_Areas: " + payload.length);
       state.areas = payload;
     },
     REMOVEUSER(state, userEmail) {
