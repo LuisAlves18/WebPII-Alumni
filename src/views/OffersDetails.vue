@@ -41,7 +41,7 @@
                     </b-input-group>
                     <b-input-group class="mb-3">
                       <b-form-select
-                        v-model="send.id_type_offer"
+                        v-model="send.typeOfferId"
                         :options="options"
                         size="sm"
                         class="mt-3"
@@ -49,7 +49,7 @@
                     </b-input-group>
                     <b-input-group class="mb-3">
                       <b-form-select
-                        v-model="send.id_area"
+                        v-model="send.areaId"
                         :options="options2"
                         size="sm"
                         class="mt-3"
@@ -104,11 +104,11 @@ export default {
       options2: [],
       send: {
         id: this.$store.state.offersProfileContent.id,
-        id_Company: this.$store.state.offersProfileContent.id_Company,
+        companyId: this.$store.state.offersProfileContent.companyId,
+        typeOfferId: this.$store.state.offersProfileContent.typeOfferId,
+        areaId: this.$store.state.offersProfileContent.areaId,
         description: this.$store.state.offersProfileContent.description,
         emailContact: this.$store.state.offersProfileContent.emailContact,
-        id_type_offer: this.$store.state.offersProfileContent.id_type_offer,
-        id_area: this.$store.state.offersProfileContent.id_area,
         duration: this.$store.state.offersProfileContent.duration,
       },
     };

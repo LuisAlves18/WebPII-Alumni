@@ -15,10 +15,11 @@ function authHeader() {
         return { 'Content-Type': 'application/json' }; //otherwise, return an empty object
     }
 }
+
 export const UserService = {
-     async fetchOneUserByID(id) {
+     async fetchOneUserByID(userID) {
          
-         const response = await fetch(`${API_URL}/users/${id}`, {
+         const response = await fetch(`${API_URL}/users/${userID}`, {
              method: "GET",
              headers: authHeader()
          });
@@ -57,35 +58,49 @@ export const UserService = {
         }
 
     },
-    /* async fetchUpdateUser(user) {
+    async fetchUpdateUserByAdmin(user) {
         const response = await fetch(`${API_URL}/users/${user.id}`, {
             method: "PUT",
             headers: authHeader(),
+        
             body: JSON.stringify({
-                name: user.name,
-                location: user.location,
-                school: user.school,
-                url: user.url,
-                biography: user.biography,
-                profile_picture: user.profile_picture,
-                id_type: user.id_type,
+                statusId: user.statusId,
+                email: user.email,
+                
             }),
         });
         if (response.ok) {
             //update name of the user in localstorage
-            if(store.getters.getLoggedUser.id == user.id){
-                let userLocal = JSON.parse(localStorage.getItem('user'));
-                userLocal.name = user.name
-                localStorage.setItem("user", JSON.stringify(userLocal));
-            }
-
             let data = await response.json();
             return data;
         }
         else {
             throw Error(handleResponses(response.status));
         }
-    }, */
+    },
+    async fetchUpdateUser(user) {
+        const response = await fetch(`${API_URL}/users/${user.id}`, {
+            method: "PUT",
+            headers: authHeader(),
+        
+            body: JSON.stringify({
+                email:user.email,
+                password:user.password,
+                facebook:user.facebook,
+                instagram:user.instagram,
+                linkedIn:user.linkedIn,
+                photo:user.photo,
+            }),
+        });
+        if (response.ok) {
+            //update name of the user in localstorage
+            let data = await response.json();
+            return data;
+        }
+        else {
+            throw Error(handleResponses(response.status));
+        }
+    },
     // sends request to API root
     async getPublicContent() {
         // return axios.get(API_URL);

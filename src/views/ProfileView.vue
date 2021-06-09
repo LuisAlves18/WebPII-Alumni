@@ -3,23 +3,23 @@
     <b-container class="d-flex justify-content-center">
       <b-row class="content">
         <b-col class="col-lg-4">
-          <b-h6 class="d-flex justify-content-left">Perfil</b-h6>
+          <h6 class="d-flex justify-content-left">Perfil</h6>
           <b-card id="persInfOver">
             <b-card-text>
               <b-img :src="send.photo" id="Photo"></b-img><br />
-              <b-p
-                >{{ this.$store.state.userProfileContent.fname }}
-                {{ this.$store.state.userProfileContent.lname }}</b-p
+              <p
+                >{{ this.$store.state.userProfileContent.first_name }}
+                {{ this.$store.state.userProfileContent.last_name }}</p
               >
               <br />
-              <b-p>{{ this.$store.state.userProfileContent.nrAluno }}</b-p>
+              <p>{{ this.$store.state.userProfileContent.alumni_number }}</p>
               <hr />
               <h6>Redes Sociais</h6>
             </b-card-text>
           </b-card>
         </b-col>
         <b-col class="col-lg-8">
-          <b-h6 class="d-flex justify-content-left">Informações Pessoais</b-h6>
+          <h6 class="d-flex justify-content-left">Informações Pessoais</h6>
           <b-card id="persInf">
             <b-card-text>
               <b-form id="form-prof-change">
@@ -39,23 +39,17 @@
                         class="inputProf"
                         type="text"
                         placeholder="Curso"
-                        :value="this.$store.state.userProfileContent.curso"
+                        :value="this.$store.state.userProfileContent.courseId"
                         readonly
                       ></b-form-input>
                     </b-input-group>
 
-                    <b-input-group class="mb-3">
-                      <b-form-input
-                        type="file"
-                        class="inputProf"
-                        placeholder="Curriculum Vitae"
-                      ></b-form-input>
-                    </b-input-group>
+                    
                   </b-col>
                   <b-col class="col-lg-6">
                     <b-input-group class="mb-3">
                       <b-form-select
-                        v-model="send.statusChange"
+                        v-model="send.statusId"
                         :options="options"
                         size="sm"
                         class="mt-3"
@@ -104,14 +98,15 @@ export default {
   data() {
     return {
       send: {
-        statusChange: this.$store.state.userProfileContent.estado,
+        id:this.$store.state.userProfileContent.id,
+        statusId: this.$store.state.userProfileContent.statusId,
         email: this.$store.state.userProfileContent.email,
         photo: this.$store.state.userProfileContent.photo,
       },
       options: [
-        { value: "pendente", text: "Estado Pendente", disabled: true },
-        { value: "disponivel", text: "Estado Disponivel" },
-        { value: "bloqueado", text: "Estado Bloqueado" },
+        { value: 3, text: "Estado Pendente", disabled: true },
+        { value: 1, text: "Estado Disponivel" },
+        { value: 2, text: "Estado Bloqueado" },
       ],
     };
   },
@@ -129,7 +124,7 @@ export default {
     updateStatus() {
       try {
         //chamar ação updateStatus
-        this.$store.dispatch("updateStatus", this.$data.send);
+        this.$store.dispatch("updateUserStatusByAdmin", this.$data.send);
         //saltar para a view Admin
         this.$router.push({ name: "Admin" });
       } catch (error) {

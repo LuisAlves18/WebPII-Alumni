@@ -44,12 +44,12 @@
                     </h6>
                     <p>
                       <span id="cardDate" class="d-flex justify-content-left">{{
-                        event.date_time_event.split("/")[0]
+                        event.date_time_event.split("T")[0]
                       }}</span>
                     </p>
                     <p>
                       <span id="cardHour" class="d-flex justify-content-left">{{
-                        event.date_time_event.split("/")[1]
+                        event.date_time_event.split("T")[1].replace(".000Z","")
                       }}</span>
                     </p>
                     <p id="cardDescp" class="d-flex justify-content-left">

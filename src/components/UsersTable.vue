@@ -10,10 +10,10 @@
       </tr>
 
       <tr v-for="render in userContent" :key="render.email">
-        <td>{{ render.nrAluno }}</td>
-        <td>{{ render.fname }} {{ render.lname }}</td>
-        <td>{{ render.curso }}</td>
-        <td>{{ render.estado }}</td>
+        <td>{{ render.alumni_number }}</td>
+        <td>{{ render.first_name }} {{ render.last_name }}</td>
+        <td>{{ render.courseId }}</td>
+        <td>{{ render.statusId }}</td>
         <td id="tdButtons">
           <b-button @click="seeMore(render)" class="btns">Ver Mais</b-button>
           <b-button @click="removeUser(render.email)" class="btns"
@@ -33,7 +33,14 @@ export default {
       type: Array,
     },
   },
+  mounted(){
+    
+        this.storeUsers()
+  },
   methods: {
+    async storeUsers() {
+            await this.$store.dispatch("fetchAllUsers");
+    },
     removeUser(userToRemove) {
       try {
         //chamar ação removeUser
