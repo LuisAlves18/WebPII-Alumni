@@ -294,6 +294,30 @@ export default new Vuex.Store({
     manageEnrollments(context, payload) {
       context.commit("MANAGE_ENROLLMENTS", payload);
     },
+    async fetchAddEnrollment({commit},event) {
+      try {
+        const response = await EventService.fetchAddEnrollment(event);
+        // console.log("STORE REGISTER SUCCES: response is...")
+        console.log(response)
+        commit("SET_MESSAGE", response.message);
+      } catch (error) {
+        console.log("add enrollment FAILS");
+        console.log(error);
+        throw error;
+      }
+    },
+    async fetchCancelEnrollment({commit},event) {
+      try {
+        const response = await EventService.fetchCancelEnrollment(event);
+        // console.log("STORE REGISTER SUCCES: response is...")
+        console.log(response)
+        commit("SET_MESSAGE", response.message);
+      } catch (error) {
+        console.log("cancel enrollment FAILS");
+        console.log(error);
+        throw error;
+      }
+    },
     async editEvent({ commit }, event) {
       try {
         const response = await EventService.fetchUpdateEvent(event);

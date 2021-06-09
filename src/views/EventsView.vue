@@ -12,7 +12,7 @@
           <div v-if="currentEvent.message">   
             <div v-if="currentEvent.message == 'logged'">
               <button
-                @click="enrollEvent(currentEvent.id)"
+                @click="enrollEvent(currentEvent.event.id)"
                 class="btn btnSubscribe"
               >
                 Inscrever
@@ -21,7 +21,7 @@
             <div v-else>
               <span v-if="currentEvent.event.enrollments[0].enrolled == true">
                 <button
-                  @click="unsubscribeEvent(currentEvent.id)"
+                  @click="unsubscribeEvent(currentEvent.event.id)"
                   class="btn btnUnsubscribe"
                 >
                 Cancelar Inscrição
@@ -29,7 +29,7 @@
               </span>
               <span v-else>
                   <button
-                  @click="pay()"
+                  @click="payEnrollment(currentEvent.event.id)"
                   class="btn btnUnsubscribe"
                 >
                 Pagar Inscrição
@@ -76,7 +76,10 @@ export default {
   methods: {
     enrollEvent(eventId) {
       try {
-        if (this.currentEvent.price == 0) {
+
+        this.$store.dispatch("fetchAddEnrollment", eventId);
+        this.$router.push({ name: "Events" });
+        /* if (this.currentEvent.price == 0) {
           this.$store.dispatch("enrollEvent", {
             idEvent: eventId,
             idUser: this.$store.getters.getLoggedUser.nrAluno,
@@ -91,21 +94,23 @@ export default {
             state: "pendente",
           });
           alert("Inscrição pendente! Por favor confirme o pagamento!");
-          this.$router.push({ name: "Events" });
-        }
+          
+        } */
       } catch (error) {
         alert(error);
       }
     },
       
     
-    unsubscribeEvent(eventId) {
+    unsubscribeEvent(eventID) {
       try {
-        this.$store.dispatch("unsubscribeEvent", {
+        this.$store.dispatch("fetchCancelEnrollment", eventID);
+
+        /* this.$store.dispatch("unsubscribeEvent", {
           idEvent: eventId,
           idUser: this.$store.getters.getLoggedUser.nrAluno,
         });
-        alert("Inscrição cancelada com sucesso!");
+        alert("Inscrição cancelada com sucesso!"); */
         this.$router.push({ name: "Events" });
       } catch (error) {
         alert(error);

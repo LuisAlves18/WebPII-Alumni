@@ -144,6 +144,38 @@ export const EventService = {
       return data;
     } else throw Error(handleResponses(response.status));
   },
+  async fetchAddEnrollment(eventID) {
+    console.log("pedido feito");
+    const response = await fetch(`${API_URL}/events/${eventID}/enrollments`, {
+      method: "POST",
+      headers: authHeader(),
+    });
+    if (response.ok) {
+      let data = await response.json();
+      // console.log("USER SERVICE - fetch ALL USERS")
+      console.log(data);
+      return data;
+    } else {
+      // console.log("USER SERVICE - fetch ALL USERS: ERROR ");
+      // console.log(response)
+      throw Error(handleResponses(response.status));
+    }
+  },
+  async fetchCancelEnrollment(eventID) {
+    console.log("pedido feito");
+    const response = await fetch(`${API_URL}/events/${eventID}/enrollments`, {
+      method: "DELETE",
+      headers: authHeader(),
+    });
+    if (response.ok) {
+      let data = await response.json();
+  
+      console.log(data);
+      return data;
+    } else {
+      throw Error(handleResponses(response.status));
+    }
+  },
 };
 
 export default EventService;
