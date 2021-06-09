@@ -55,21 +55,19 @@ export const EventService = {
         console.log("pedido feito");
         const response = await fetch(`${API_URL}/events/${event.id}`, {
           method: "PUT",
-          headers: {
-            "Content-Type": "application/json;charset=utf-8",
-          },
+          headers:authHeader(),
           body: JSON.stringify({
             id_event_type: event.id_event_type,
             name: event.name,
-            date_time_event: event.date_time_event,
-            date_limit: event.date_limit,
             price: event.price,
-            link: event.link,
-            address: event.address,
             description: event.description,
             photo: event.photo,
+            date: event.date,
+            time:event.time,
+            date_limit: event.date_limit,
+            link: event.link,
+            address: event.address,
             nrLimit: event.nrLimit,
-            closed:event.closed
         }),
         });
         if (response.ok) {

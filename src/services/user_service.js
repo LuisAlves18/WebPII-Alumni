@@ -101,6 +101,19 @@ export const UserService = {
             throw Error(handleResponses(response.status));
         }
     },
+    async fetchDeleteUser(userID) {
+        const response = await fetch(`${API_URL}/users/${userID}`, {
+            method: "DELETE",
+            headers:authHeader()
+        });
+        if (response.ok) {
+            let data = await response.json();
+            return data;
+        }
+        else {
+            throw Error(handleResponses(response.status));
+        }
+    },
     // sends request to API root
     async getPublicContent() {
         // return axios.get(API_URL);

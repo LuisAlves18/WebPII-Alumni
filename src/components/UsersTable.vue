@@ -16,7 +16,7 @@
         <td>{{ render.statusId }}</td>
         <td id="tdButtons">
           <b-button @click="seeMore(render)" class="btns">Ver Mais</b-button>
-          <b-button @click="removeUser(render.email)" class="btns"
+          <b-button @click="removeUser(render.id)" class="btns"
             >Eliminar</b-button
           >
         </td>
@@ -46,7 +46,7 @@ export default {
         //chamar ação removeUser
         this.$store.dispatch("removeUser", userToRemove);
         //refresh
-        this.$router.go();
+        //this.$router.go();
       } catch (error) {
         alert(error);
       }

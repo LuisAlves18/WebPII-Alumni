@@ -156,9 +156,16 @@ export default new Vuex.Store({
         throw error;
       }
     },
-    removeUser(context, payload) {
-      context.commit("REMOVEUSER", payload);
-      localStorage.setItem("users", JSON.stringify(context.state.users));
+    async removeUser({commit}, id) {
+      try {
+        const response = await UserService.fetchDeleteUser(id);
+        console.log(response)
+        commit("SET_MESSAGE", response.message);
+      } catch (error) {
+        console.log("STORE REGISTER FAILS");
+        console.log(error);
+        throw error;
+      }
     },
     seeMore(context, payload) {
       context.commit("SEEMORE", payload);
