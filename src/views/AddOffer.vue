@@ -3,7 +3,7 @@
     <b-container class="d-flex justify-content-center">
       <b-row class="content">
         <b-col class="col-lg-4">
-          <b-p class="d-flex justify-content-left">Imagem da Empresa</b-p>
+          <p class="d-flex justify-content-left">Imagem da Empresa</p>
           <b-card>
             <b-card-text>
               <!-- apresentar imagem da empresa selecionada -->
@@ -27,7 +27,7 @@
           </b-card>
         </b-col>
         <b-col class="col-lg-8">
-          <b-p class="d-flex justify-content-left">Informações Oferta</b-p>
+          <p class="d-flex justify-content-left">Informações Oferta</p>
           <b-card>
             <b-card-text>
               <b-form @submit.prevent="addOffer">
@@ -131,7 +131,6 @@ export default {
   data() {
     return {
       send: {
-        id: this.getNextId(),
         id_Company: "",
         id_type_offer: "",
         id_area: "",
@@ -143,27 +142,10 @@ export default {
     };
   },
   computed: {
-    filterCompany() {
-      return this.$store.state.companies.find(
-        (company) => company.id == this.id_Company
-      );
-    },
+    
   },
   methods: {
-    getNextId() {
-      if (this.$store.state.offers.length == 0) {
-        return 1;
-      } else {
-        return (
-          this.$store.state.offers[this.$store.state.offers.length - 1].id + 1
-        );
-      }
-    },
-    getCompany() {
-      this.company = this.$store.state.companies.find(
-        (company) => company.id == this.send.id_Company
-      );
-    },
+    
     addOffer() {
       try {
         //chamar ação addOffer

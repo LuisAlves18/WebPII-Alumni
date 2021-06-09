@@ -38,8 +38,85 @@ export const CompanyService = {
         }
 
     },
-    
-    
+    async fetchOneCompany(companyID) {
+
+        const response = await fetch(`${API_URL}/companies/${companyID}`, {
+            method: "GET",
+            headers:authHeader()
+        });
+        if (response.ok) {
+            let data = await response.json();
+            // console.log("USER SERVICE - fetch ALL USERS")
+            console.log(data)
+            return data;
+        } else {
+            // console.log("USER SERVICE - fetch ALL USERS: ERROR ");
+            // console.log(response)
+            throw Error(handleResponses(response.status));
+        }
+
+    },
+    async fetchAddCompany(company) {
+        const response = await fetch(`${API_URL}/companies`, {
+          method: "POST",
+          headers: authHeader(),
+          body: JSON.stringify({
+            name: company.name,
+            email: company.email,
+            address: company.address,
+            website: company.website,
+            logo: company.logo,
+            linkedIn: company.linkedIn,
+            about: company.about,
+          }),
+        });
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data)
+          return data;
+        } else {
+          throw Error(response.message);
+        }
+      },
+    async fetchUpdateCompany(company) {
+        console.log("pedido feito");
+        const response = await fetch(`${API_URL}/companies/${company.id}`, {
+          method: "PUT",
+          headers:authHeader(),
+          body: JSON.stringify({
+            name: company.name,
+            email: company.email,
+            address: company.address,
+            website: company.website,
+            logo: company.logo,
+            linkedIn:company.linkedIn,
+            about: company.about,
+        }),
+        });
+        if (response.ok) {
+          let data = await response.json();
+          // console.log("USER SERVICE - fetch ALL USERS")
+          console.log(data);
+          return data;
+        } else {
+          // console.log("USER SERVICE - fetch ALL USERS: ERROR ");
+          // console.log(response)
+          throw Error(handleResponses(response.status));
+        }
+      },
+    async fetchDeleteCompany(companyID) {
+        const response = await fetch(`${API_URL}/companies/${companyID}`, {
+            method: "DELETE",
+            headers:authHeader()
+        });
+        if (response.ok) {
+            let data = await response.json();
+            return data;
+        }
+        else {
+            throw Error(handleResponses(response.status));
+        }
+    },
     
     // sends request to API root
     async getPublicContent() {

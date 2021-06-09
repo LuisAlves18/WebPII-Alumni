@@ -34,8 +34,7 @@ export default {
     },
   },
   mounted(){
-    
-        this.storeUsers()
+    this.storeUsers()
   },
   methods: {
     async storeUsers() {
