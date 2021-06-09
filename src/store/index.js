@@ -5,6 +5,7 @@ import { EventService } from "../services/events_service";
 import { OfferService } from "../services/offers_service";
 import { AuthService } from "../services/auth_service";
 import { UserService } from '../services/user_service';
+import { CompanyService } from '../services/companies_service';
 
 Vue.use(Vuex);
 
@@ -17,6 +18,7 @@ export default new Vuex.Store({
     companyProfileContent: "",
     eventsProfileContent: "",
     offersProfileContent: "",
+    companies: [],
     /*   companies: localStorage.getItem('companies') ? JSON.parse(localStorage.getItem('companies')) : [{
             id: 1,
             name: 'Moxy',
@@ -180,6 +182,24 @@ export default new Vuex.Store({
         console.log("user update FAILS");
         console.log(error);
         throw error;
+      }
+    },
+    //company
+    async fetchAllCompanies({ commit }) {
+      try {
+        console.log("pedido feito");
+        const companies = await CompanyService.fetchAllCompanies();
+        console.log("STORE companies: " + companies.length);
+        commit("SET_COMPANIES", companies);
+
+        
+      } catch (error) {
+       
+        console.log("error");
+        commit("SET_COMPANIES", []);
+        commit("SET_MESSAGE", error);
+        throw error; // Needed to continue propagating the error
+        //return Promise.reject(error);
       }
     },
     removeCompany(context, payload) {
@@ -409,6 +429,10 @@ export default new Vuex.Store({
     SET_USERS(state,payload){
       console.log("STORE MUTATION SET_USERS: " + payload.length);
       state.users = payload;
+    },
+    SET_COMPANIES(state,payload){
+      console.log("STORE MUTATION SET_COMPANIES: " + payload.length);
+      state.companies = payload;
     },
     REMOVEUSER(state, userEmail) {
       state.users = state.users.filter((user) => user.email != userEmail);

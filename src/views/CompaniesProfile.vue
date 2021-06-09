@@ -71,7 +71,7 @@
                     id: this.$store.state.companyProfileContent.id,
                     name: this.$store.state.companyProfileContent.name,
                     address: this.$store.state.companyProfileContent.address,
-                    linkedIN: this.$store.state.companyProfileContent.linkedIN,
+                    linkedIN: this.$store.state.companyProfileContent.linkedIn,
                     email: this.$store.state.companyProfileContent.email,
                     website: this.$store.state.companyProfileContent.website,
                     logo: this.$store.state.companyProfileContent.logo

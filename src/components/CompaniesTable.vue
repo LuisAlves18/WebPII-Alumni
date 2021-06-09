@@ -34,7 +34,14 @@
                 type: Array
             }
         },
+        mounted() {
+            this.storeCompanies();
+        },
         methods: {
+            async storeCompanies() {
+                await this.$store.dispatch("fetchAllCompanies");
+                console.log(this.$store.state.companies);
+            },
             removeCompany(company) {
                 try {
                     //chamar ação removeCompany

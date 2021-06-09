@@ -68,6 +68,7 @@ export default {
     this.storeEvents()
     this.storeOffers()
     this.storeUsers()
+    this.storeCompanies()
 
   },
   methods: {
@@ -80,6 +81,9 @@ export default {
     },
     async storeEvents() {
       await this.$store.dispatch("fetchAllEvents");
+    },
+    async storeCompanies() {
+      await this.$store.dispatch("fetchAllCompanies");
     },
     usersProp() {
       this.companyContent = [];
