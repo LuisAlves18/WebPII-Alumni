@@ -176,6 +176,28 @@ export const EventService = {
       throw Error(handleResponses(response.status));
     }
   },
+  async fetchPayEnrollment(payload) {
+    console.log("pedido feito");
+    let eventID = payload.eventID;
+    console.log(eventID);
+    let discountPoints = payload.discountPoints;
+    console.log(discountPoints);
+    const response = await fetch(`${API_URL}/events/${eventID}/enrollments`, {
+      method: "PUT",
+      headers: authHeader(),
+      body: JSON.stringify({
+        discountPoints: discountPoints
+      })
+    });
+    if (response.ok) {
+      let data = await response.json();
+  
+      console.log(data);
+      return data;
+    } else {
+      throw Error(handleResponses(response.status));
+    }
+  },
 };
 
 export default EventService;

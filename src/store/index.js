@@ -113,7 +113,7 @@ export default new Vuex.Store({
     },
     logout(context) {
       context.commit("LOGOUT");
-      sessionStorage.removeItem("loggedUser");
+      localStorage.removeItem("user");
     },
     async register({ commit }, user) {
       //verificar se ja existe este user
@@ -284,6 +284,18 @@ export default new Vuex.Store({
         commit("SET_MESSAGE", response.message);
       } catch (error) {
         console.log("add event FAILS");
+        console.log(error);
+        throw error;
+      }
+    },
+    async fetchPayEnrollment({commit},payload) {
+      try {
+        const response = await EventService.fetchPayEnrollment(payload);
+        // console.log("STORE REGISTER SUCCES: response is...")
+        console.log(response)
+        commit("SET_MESSAGE", response.message);
+      } catch (error) {
+        console.log("pay event FAILS");
         console.log(error);
         throw error;
       }

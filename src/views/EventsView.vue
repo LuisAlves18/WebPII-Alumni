@@ -18,7 +18,7 @@
                 Inscrever
               </button>
             </div>
-            <div v-else>
+            <div v-else-if="currentEvent.message == 'enrolled'">
               <span v-if="currentEvent.event.enrollments[0].enrolled == true">
                 <button
                   @click="unsubscribeEvent(currentEvent.event.id)"
@@ -27,13 +27,20 @@
                 Cancelar Inscrição
                 </button>
               </span>
-              <span v-else>
-                  <button
-                  @click="payEnrollment(currentEvent.event.id)"
-                  class="btn btnUnsubscribe"
-                >
-                Pagar Inscrição
-                </button>
+              <span v-else> 
+                    <button
+                      @click="payEnrollmentFullPrice(currentEvent.event)"
+                      class="btn btnUnsubscribe"
+                    >
+                      Pagar Sem Desconto
+                    </button>
+
+                    <button
+                      @click="payEnrollmentDiscounted(currentEvent.event)"
+                      class="btn btnUnsubscribe"
+                    >
+                      Pagar Com Desconto
+                    </button>
               </span>
             </div>
           </div>
@@ -43,7 +50,12 @@
           <div class="text-left cardDetails">
             <b-card title="Detalhes">
               <div>
-                {{ currentEvent.event.description }}
+                <b>Descrição:</b> {{ currentEvent.event.description }} <br>
+                <b>Preço:</b> {{currentEvent.event.price}} € <br>
+                <span v-if="currentEvent.message && currentEvent.message == 'enrolled' && currentEvent.event.enrollments[0].enrolled != true">
+                <b>Seus pontos disponiveis: </b> {{currentEvent.event.enrollments[0].user.points}} <br>
+                <b>Preço com desconto: </b> {{currentEvent.event.price - (currentEvent.event.price * (currentEvent.event.enrollments[0].user.points / 100))}} €
+                </span>
               </div>
             </b-card>
           </div>
@@ -111,6 +123,25 @@ export default {
           idUser: this.$store.getters.getLoggedUser.nrAluno,
         });
         alert("Inscrição cancelada com sucesso!"); */
+        this.$router.push({ name: "Events" });
+      } catch (error) {
+        alert(error);
+      }
+    },
+    payEnrollmentFullPrice(event) {
+      try {
+        let points = event.enrollments[0].user.points - event.enrollments[0].user.points;
+        this.$store.dispatch("fetchPayEnrollment", {eventID: event.id, discountPoints: points});
+        this.$router.push({ name: "Events" });
+      } catch (error) {
+        alert(error);
+      }
+    },
+    
+    payEnrollmentDiscounted(event) {
+      try {
+        
+        this.$store.dispatch("fetchPayEnrollment", {eventID: event.id, discountPoints: event.enrollments[0].user.points});
         this.$router.push({ name: "Events" });
       } catch (error) {
         alert(error);
