@@ -4,8 +4,8 @@ import Vuex from "vuex";
 import { EventService } from "../services/events_service";
 import { OfferService } from "../services/offers_service";
 import { AuthService } from "../services/auth_service";
-import { UserService } from '../services/user_service';
-import { CompanyService } from '../services/companies_service';
+import { UserService } from "../services/user_service";
+import { CompanyService } from "../services/companies_service";
 
 Vue.use(Vuex);
 
@@ -19,75 +19,14 @@ export default new Vuex.Store({
     eventsProfileContent: "",
     offersProfileContent: "",
     companies: [],
-    /*   companies: localStorage.getItem('companies') ? JSON.parse(localStorage.getItem('companies')) : [{
-            id: 1,
-            name: 'Moxy',
-            email: 'hello@moxy.studio',
-            address: 'Rua do Bonjardim, 672 A, 4000-119 Porto',
-            website: 'https://moxy.studio/',
-            logo: 'https://media-exp1.licdn.com/dms/image/C4D0BAQH7FogRsvO6Vw/company-logo_200_200/0/1519919483039?e=2159024400&v=beta&t=NnmIW8EUdRvyVSp82GK-mAFD7FI_bYhlbiJbBLvgmUs',
-            linkedIN: 'https://linkedIn/moxystudio',
-            about: "A MOXY é um estúdio de software e design que busca o equilíbrio entre impacto, excelência e pragmatismo. Chamamos a isso de Projeto de Engenharia. Com mais de 30 anos de experiência combinada em desenvolvimento de software e produto na equipa de gestão, uma lista de clientes e parceiros de negócios de alto nível nos setores de entretenimento e tecnologia confirmam que a MOXY é um estúdio de software e design com foco na qualidade e na experiência do utilizador.'//'Tu, um Engenheiro de Full-stack, farás parte de uma equipa que se move rapidamente, com espírito de inovação constante e não tem medo de abraçar novas tecnologias e desafios. Tu farás parte do processo de design e arquitetura de todas as camadas de software, desenvolvendo serviços de alto desempenho e resilientes e construindo interfaces de utilizador ricas e interativas."
-        }],
- */
     events: [],
     events_type: [],
     enrollments: localStorage.getItem("enrollments")
       ? JSON.parse(localStorage.getItem("enrollments"))
       : [],
     offers: [],
-    offers_type: localStorage.getItem("offers-type")
-      ? JSON.parse(localStorage.getItem("offers-type"))
-      : [
-          {
-            id: 1,
-            description: "Oferta Profissional",
-          },
-          {
-            id: 2,
-            description: "Estágio",
-          },
-          {
-            id: 3,
-            description: "Freelance",
-          },
-        ],
-    areas: localStorage.getItem("areas")
-      ? JSON.parse(localStorage.getItem("areas"))
-      : [
-          {
-            id: 1,
-            description: "design",
-          },
-          {
-            id: 2,
-            description: "fotografia",
-          },
-          {
-            id: 3,
-            description: "multimedia",
-          },
-          {
-            id: 4,
-            description: "comunicação audio-visual",
-          },
-          {
-            id: 5,
-            description: "desenvolvedor UI/UX",
-          },
-          {
-            id: 6,
-            description: "desenvolvedor software",
-          },
-          {
-            id: 7,
-            description: "desenvolvedor produtos Web",
-          },
-          {
-            id: 8,
-            description: "admin",
-          },
-        ],
+    offers_type: [],
+    areas: [],
   },
   getters: {
     getEvents: (state) => state.events,
@@ -120,7 +59,7 @@ export default new Vuex.Store({
       try {
         const response = await AuthService.register(user);
         // console.log("STORE REGISTER SUCCES: response is...")
-        console.log(response)
+        console.log(response);
         commit("SET_MESSAGE", response.message);
       } catch (error) {
         console.log("STORE REGISTER FAILS");
@@ -146,11 +85,11 @@ export default new Vuex.Store({
         //return Promise.reject(error);
       }
     },
-    async editProfile({ commit },user) {
+    async editProfile({ commit }, user) {
       try {
         const response = await UserService.fetchUpdateUser(user);
         // console.log("STORE REGISTER SUCCES: response is...")
-        console.log(response)
+        console.log(response);
         commit("SET_MESSAGE", response.message);
       } catch (error) {
         console.log("user update FAILS");
@@ -158,10 +97,10 @@ export default new Vuex.Store({
         throw error;
       }
     },
-    async removeUser({commit}, id) {
+    async removeUser({ commit }, id) {
       try {
         const response = await UserService.fetchDeleteUser(id);
-        console.log(response)
+        console.log(response);
         commit("SET_MESSAGE", response.message);
       } catch (error) {
         console.log("STORE REGISTER FAILS");
@@ -176,7 +115,7 @@ export default new Vuex.Store({
       try {
         const response = await UserService.fetchUpdateUserByAdmin(user);
         // console.log("STORE REGISTER SUCCES: response is...")
-        console.log(response)
+        console.log(response);
         commit("SET_MESSAGE", response.message);
       } catch (error) {
         console.log("user update FAILS");
@@ -191,10 +130,7 @@ export default new Vuex.Store({
         const companies = await CompanyService.fetchAllCompanies();
         console.log("STORE companies: " + companies.length);
         commit("SET_COMPANIES", companies);
-
-        
       } catch (error) {
-       
         console.log("error");
         commit("SET_COMPANIES", []);
         commit("SET_MESSAGE", error);
@@ -202,10 +138,10 @@ export default new Vuex.Store({
         //return Promise.reject(error);
       }
     },
-    async removeCompany({commit}, id) {
+    async removeCompany({ commit }, id) {
       try {
         const response = await CompanyService.fetchDeleteCompany(id);
-        console.log(response)
+        console.log(response);
         commit("SET_MESSAGE", response.message);
       } catch (error) {
         console.log("delete company FAILS");
@@ -213,11 +149,11 @@ export default new Vuex.Store({
         throw error;
       }
     },
-    async addCompany({ commit },company) {
+    async addCompany({ commit }, company) {
       try {
-        console.log(company)
+        console.log(company);
         const response = await CompanyService.fetchAddCompany(company);
-        console.log(response)
+        console.log(response);
         commit("SET_MESSAGE", response.message);
       } catch (error) {
         console.log("add company FAILS");
@@ -232,14 +168,47 @@ export default new Vuex.Store({
       try {
         const response = await CompanyService.fetchUpdateCompany(company);
         // console.log("STORE REGISTER SUCCES: response is...")
-        console.log(response)
+        console.log(response);
         commit("SET_MESSAGE", response.message);
       } catch (error) {
         console.log("company update FAILS");
         console.log(error);
         throw error;
       }
-      
+    },
+    async fetchAllAreas({ commit }) {
+      try {
+        console.log("pedido feito");
+        const areas = await CompanyService.fetchAllAreas();
+        console.log("STORE events: " + areas.length);
+        commit("SET_AREAS", areas);
+
+        //return Promise.resolve(users);
+      } catch (error) {
+        // console.log('STORE listUsers: ' + error);
+        console.log("error");
+        commit("SET_AREAS", []);
+        commit("SET_MESSAGE", error);
+        throw error; // Needed to continue propagating the error
+        //return Promise.reject(error);
+      }
+    },
+    async fetchAllOffersType({ commit }) {
+      try {
+        console.log("pedido feito");
+        const offersType = await OfferService.fetchAllOffersType();
+        console.log("STORE events: " + offersType.length);
+        commit("SET_OFFERS_TYPE", offersType);
+
+        //return Promise.resolve(users);
+      } catch (error) {
+        // console.log('STORE listUsers: ' + error);
+        console.log("error");
+        commit("SET_OFFERS_TYPE", []);
+        commit("SET_MESSAGE", error);
+        throw error; // Needed to continue propagating the error
+        //return Promise.reject(error);
+      }
     },
     //events
     async fetchAllEventTypes({ commit }) {
@@ -276,11 +245,11 @@ export default new Vuex.Store({
         //return Promise.reject(error);
       }
     },
-    async fetchAddEvent({commit},event) {
+    async fetchAddEvent({ commit }, event) {
       try {
         const response = await EventService.fetchAddEvent(event);
         // console.log("STORE REGISTER SUCCES: response is...")
-        console.log(response)
+        console.log(response);
         commit("SET_MESSAGE", response.message);
       } catch (error) {
         console.log("add event FAILS");
@@ -288,11 +257,11 @@ export default new Vuex.Store({
         throw error;
       }
     },
-    async fetchPayEnrollment({commit},payload) {
+    async fetchPayEnrollment({ commit }, payload) {
       try {
         const response = await EventService.fetchPayEnrollment(payload);
         // console.log("STORE REGISTER SUCCES: response is...")
-        console.log(response)
+        console.log(response);
         commit("SET_MESSAGE", response.message);
       } catch (error) {
         console.log("pay event FAILS");
@@ -306,11 +275,11 @@ export default new Vuex.Store({
     manageEnrollments(context, payload) {
       context.commit("MANAGE_ENROLLMENTS", payload);
     },
-    async fetchAddEnrollment({commit},event) {
+    async fetchAddEnrollment({ commit }, event) {
       try {
         const response = await EventService.fetchAddEnrollment(event);
         // console.log("STORE REGISTER SUCCES: response is...")
-        console.log(response)
+        console.log(response);
         commit("SET_MESSAGE", response.message);
       } catch (error) {
         console.log("add enrollment FAILS");
@@ -318,11 +287,11 @@ export default new Vuex.Store({
         throw error;
       }
     },
-    async fetchCancelEnrollment({commit},event) {
+    async fetchCancelEnrollment({ commit }, event) {
       try {
         const response = await EventService.fetchCancelEnrollment(event);
         // console.log("STORE REGISTER SUCCES: response is...")
-        console.log(response)
+        console.log(response);
         commit("SET_MESSAGE", response.message);
       } catch (error) {
         console.log("cancel enrollment FAILS");
@@ -334,7 +303,7 @@ export default new Vuex.Store({
       try {
         const response = await EventService.fetchUpdateEvent(event);
         // console.log("STORE REGISTER SUCCES: response is...")
-        console.log(response)
+        console.log(response);
         commit("SET_MESSAGE", response.message);
       } catch (error) {
         console.log("offer update FAILS");
@@ -346,10 +315,10 @@ export default new Vuex.Store({
       context.commit("ADDGUEST", payload);
       localStorage.setItem("guests", JSON.stringify(context.state.guests));
     },
-    async removeEvent({commit}, id) {
+    async removeEvent({ commit }, id) {
       try {
         const response = await EventService.fetchDeleteEvent(id);
-        console.log(response)
+        console.log(response);
         commit("SET_MESSAGE", response.message);
       } catch (error) {
         console.log("STORE REGISTER FAILS");
@@ -407,7 +376,7 @@ export default new Vuex.Store({
       try {
         const response = await OfferService.fetchUpdateOffer(offer);
         // console.log("STORE REGISTER SUCCES: response is...")
-        console.log(response)
+        console.log(response);
         commit("SET_MESSAGE", response.message);
       } catch (error) {
         console.log("offer update FAILS");
@@ -415,25 +384,22 @@ export default new Vuex.Store({
         throw error;
       }
     },
-    addOffer(context, payload) {
-      //verificar se ja existe esta oferta
-      const offer = context.state.offers.find(
-        (offer) => offer.description === payload.description
-      );
-      if (offer == undefined) {
-        //criação do evento com sucesso
-        context.commit("ADDOFFER", payload);
-        localStorage.setItem("offers", JSON.stringify(context.state.offers));
-      } else {
-        //criação do evento sem sucesso
-        throw Error("Oferta já existente!");
+   async addOffer({commit}, offer) {
+      try {
+        const response = await OfferService.fetchAddOffer(offer);
+        // console.log("STORE REGISTER SUCCES: response is...")
+        console.log(response);
+        commit("SET_MESSAGE", response.message);
+      } catch (error) {
+        console.log("add event FAILS");
+        console.log(error);
+        throw error;
       }
     },
-    async removeOffer({commit}, id) {
-      
+    async removeOffer({ commit }, id) {
       try {
         const response = await OfferService.fetchDeleteOffer(id);
-        console.log(response)
+        console.log(response);
         commit("SET_MESSAGE", response.message);
       } catch (error) {
         console.log("STORE REGISTER FAILS");
@@ -445,6 +411,7 @@ export default new Vuex.Store({
       context.commit("SEEMOREOFFER", payload);
     },
   },
+
   mutations: {
     SET_MESSAGE(state, payload) {
       state.message = payload;
@@ -458,19 +425,23 @@ export default new Vuex.Store({
       state.loggedUser = "";
     },
     LOGOUT(state) {
-        state.loggedIn = false;
-        state.loggedUser = "";
+      state.loggedIn = false;
+      state.loggedUser = "";
     },
     REGISTER(state, user) {
       state.users.push(user);
     },
-    SET_USERS(state,payload){
+    SET_USERS(state, payload) {
       console.log("STORE MUTATION SET_USERS: " + payload.length);
       state.users = payload;
     },
-    SET_COMPANIES(state,payload){
+    SET_COMPANIES(state, payload) {
       console.log("STORE MUTATION SET_COMPANIES: " + payload.length);
       state.companies = payload;
+    },
+    SET_AREAS(state, payload) {
+      console.log("STORE MUTATION SET_COMPANIES: " + payload.length);
+      state.areas = payload;
     },
     REMOVEUSER(state, userEmail) {
       state.users = state.users.filter((user) => user.email != userEmail);
@@ -656,6 +627,10 @@ export default new Vuex.Store({
     },
     REMOVEOFFER(state, id) {
       state.offers = state.offers.filter((offer) => offer.id != id);
+    },
+    SET_OFFERS_TYPE(state, payload) {
+      console.log("STORE MUTATION SET_OFFERSTYPE: " + payload.length);
+      state.offers_type = payload;
     },
   },
 });
