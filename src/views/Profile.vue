@@ -7,7 +7,7 @@
           
           <img
             class="img-fluid mt-3"
-            src=:currentUser.photo
+            :src="currentUser.photo"
           />
           <p class="mt-2">{{ send.first_name }} {{send.last_name }}</p>
           <label class="labelLeft">Número</label>

@@ -5,16 +5,19 @@
         <b-container class="d-flex justify-content-center">
             <b-row class="content">
                 <b-col class="col-lg-4">
-                    <b-p class="d-flex justify-content-left">Imagem da Empresa</b-p>
+                    <p class="d-flex justify-content-left">Imagem da Empresa</p>
                     <b-card>                       
                         <b-card-text>                           
-                            <b-img src="https://via.placeholder.com/150"></b-img><br />
+                            <b-img :src="send.logo"></b-img><br />
                         </b-card-text>
                     </b-card>
-                    <b-button class="d-flex justify-content-center" id="btnAddImage">Adicionar Imagem</b-button>
+                     <b-input-group class="mb-3">
+                                            <b-form-input type="text" id="txtImage" class="inputProf" placeholder="link Imagem" v-model="send.logo">
+                                            </b-form-input>
+                                        </b-input-group>
                 </b-col>
                 <b-col class="col-lg-8">
-                    <b-p class="d-flex justify-content-left">Informações Empresa</b-p>
+                    <p class="d-flex justify-content-left">Informações Empresa</p>
                     <b-card>                       
                         <b-card-text>                           
                             <b-form @submit.prevent="addCompany">
@@ -29,7 +32,7 @@
                                             </b-form-input>
                                         </b-input-group>
                                         <b-input-group class="mb-3">
-                                            <b-form-input type="text" id="txtCompanyLinkedIN" class="inputProf" placeholder="LinkedIn" v-model="send.linkedIN">
+                                            <b-form-input type="text" id="txtCompanyLinkedIN" class="inputProf" placeholder="LinkedIn" v-model="send.linkedIn">
                                             </b-form-input>
                                         </b-input-group>
                                     </b-col>
@@ -40,6 +43,10 @@
                                         </b-input-group>
                                         <b-input-group class="mb-3">
                                             <b-form-input type="text" id="txtWebSite" class="inputProf" placeholder="WebSite" v-model="send.website">
+                                            </b-form-input>
+                                        </b-input-group>
+                                        <b-input-group class="mb-3">
+                                            <b-form-input type="text" id="txtabout" class="inputProf" placeholder="About" v-model="send.about">
                                             </b-form-input>
                                         </b-input-group>
                                         <b-input-group class="mb-3">
@@ -64,24 +71,17 @@
         data() {
             return {
                 send: {
-                    id: this.getNextId(),
                     name: '',
                     email: '',
                     address: '',
                     website: '',
                     logo: '',
-                    linkedIN: ''
+                    linkedIn: '',
+                    about:''
                 }
             }
         },
         methods: {
-            getNextId() {
-                if (this.$store.state.companies.length == 0) {
-                    return 1
-                } else {
-                    return this.$store.state.companies[this.$store.state.companies.length - 1].id + 1
-                }
-            },
             addCompany() {
                 try {
                     //chamar ação addCompany

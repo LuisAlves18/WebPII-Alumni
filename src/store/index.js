@@ -5,6 +5,7 @@ import { EventService } from "../services/events_service";
 import { OfferService } from "../services/offers_service";
 import { AuthService } from "../services/auth_service";
 import { UserService } from '../services/user_service';
+import { CompanyService } from '../services/companies_service';
 
 Vue.use(Vuex);
 
@@ -17,6 +18,7 @@ export default new Vuex.Store({
     companyProfileContent: "",
     eventsProfileContent: "",
     offersProfileContent: "",
+    companies: [],
     /*   companies: localStorage.getItem('companies') ? JSON.parse(localStorage.getItem('companies')) : [{
             id: 1,
             name: 'Moxy',
@@ -156,9 +158,16 @@ export default new Vuex.Store({
         throw error;
       }
     },
-    removeUser(context, payload) {
-      context.commit("REMOVEUSER", payload);
-      localStorage.setItem("users", JSON.stringify(context.state.users));
+    async removeUser({commit}, id) {
+      try {
+        const response = await UserService.fetchDeleteUser(id);
+        console.log(response)
+        commit("SET_MESSAGE", response.message);
+      } catch (error) {
+        console.log("STORE REGISTER FAILS");
+        console.log(error);
+        throw error;
+      }
     },
     seeMore(context, payload) {
       context.commit("SEEMORE", payload);
@@ -175,39 +184,62 @@ export default new Vuex.Store({
         throw error;
       }
     },
-    removeCompany(context, payload) {
-      context.commit("REMOVECOMPANY", payload);
-      localStorage.setItem(
-        "companies",
-        JSON.stringify(context.state.companies)
-      );
+    //company
+    async fetchAllCompanies({ commit }) {
+      try {
+        console.log("pedido feito");
+        const companies = await CompanyService.fetchAllCompanies();
+        console.log("STORE companies: " + companies.length);
+        commit("SET_COMPANIES", companies);
+
+        
+      } catch (error) {
+       
+        console.log("error");
+        commit("SET_COMPANIES", []);
+        commit("SET_MESSAGE", error);
+        throw error; // Needed to continue propagating the error
+        //return Promise.reject(error);
+      }
     },
-    addCompany(context, payload) {
-      //verificar se ja existe esta empresa
-      const company = context.state.companies.find(
-        (company) => company.name === payload.name
-      );
-      if (company == undefined) {
-        //criação da empresa com sucesso
-        context.commit("ADDCOMPANY", payload);
-        localStorage.setItem(
-          "companies",
-          JSON.stringify(context.state.companies)
-        );
-      } else {
-        //criação da empresa sem sucesso
-        throw Error("Utilizador já existente!");
+    async removeCompany({commit}, id) {
+      try {
+        const response = await CompanyService.fetchDeleteCompany(id);
+        console.log(response)
+        commit("SET_MESSAGE", response.message);
+      } catch (error) {
+        console.log("delete company FAILS");
+        console.log(error);
+        throw error;
+      }
+    },
+    async addCompany({ commit },company) {
+      try {
+        console.log(company)
+        const response = await CompanyService.fetchAddCompany(company);
+        console.log(response)
+        commit("SET_MESSAGE", response.message);
+      } catch (error) {
+        console.log("add company FAILS");
+        console.log(error);
+        throw error;
       }
     },
     seeMoreCompany(context, payload) {
       context.commit("SEEMORECOMPANY", payload);
     },
-    editCompany(context, payload) {
-      context.commit("EDITCOMPANY", payload);
-      localStorage.setItem(
-        "companies",
-        JSON.stringify(context.state.companies)
-      );
+    async editCompany({ commit }, company) {
+      try {
+        const response = await CompanyService.fetchUpdateCompany(company);
+        // console.log("STORE REGISTER SUCCES: response is...")
+        console.log(response)
+        commit("SET_MESSAGE", response.message);
+      } catch (error) {
+        console.log("company update FAILS");
+        console.log(error);
+        throw error;
+      }
+      
     },
     //events
     async fetchAllEventTypes({ commit }) {
@@ -244,19 +276,16 @@ export default new Vuex.Store({
         //return Promise.reject(error);
       }
     },
-    addEvent(context, payload) {
-      //verificar se ja existe este evento
-      const event = context.state.events.find(
-        (event) => event.name === payload.name
-      );
-      if (event == undefined) {
-        //criação do evento com sucesso
-        context.commit("ADDEVENT", payload);
-        localStorage.setItem("events", JSON.stringify(context.state.events));
-        localStorage.setItem("guests", JSON.stringify(context.state.guests));
-      } else {
-        //criação do evento sem sucesso
-        throw Error("Evento já existente!");
+    async fetchAddEvent({commit},event) {
+      try {
+        const response = await EventService.fetchAddEvent(event);
+        // console.log("STORE REGISTER SUCCES: response is...")
+        console.log(response)
+        commit("SET_MESSAGE", response.message);
+      } catch (error) {
+        console.log("add event FAILS");
+        console.log(error);
+        throw error;
       }
     },
     seeMoreEvent(context, payload) {
@@ -264,6 +293,30 @@ export default new Vuex.Store({
     },
     manageEnrollments(context, payload) {
       context.commit("MANAGE_ENROLLMENTS", payload);
+    },
+    async fetchAddEnrollment({commit},event) {
+      try {
+        const response = await EventService.fetchAddEnrollment(event);
+        // console.log("STORE REGISTER SUCCES: response is...")
+        console.log(response)
+        commit("SET_MESSAGE", response.message);
+      } catch (error) {
+        console.log("add enrollment FAILS");
+        console.log(error);
+        throw error;
+      }
+    },
+    async fetchCancelEnrollment({commit},event) {
+      try {
+        const response = await EventService.fetchCancelEnrollment(event);
+        // console.log("STORE REGISTER SUCCES: response is...")
+        console.log(response)
+        commit("SET_MESSAGE", response.message);
+      } catch (error) {
+        console.log("cancel enrollment FAILS");
+        console.log(error);
+        throw error;
+      }
     },
     async editEvent({ commit }, event) {
       try {
@@ -402,6 +455,10 @@ export default new Vuex.Store({
     SET_USERS(state,payload){
       console.log("STORE MUTATION SET_USERS: " + payload.length);
       state.users = payload;
+    },
+    SET_COMPANIES(state,payload){
+      console.log("STORE MUTATION SET_COMPANIES: " + payload.length);
+      state.companies = payload;
     },
     REMOVEUSER(state, userEmail) {
       state.users = state.users.filter((user) => user.email != userEmail);

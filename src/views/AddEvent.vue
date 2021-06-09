@@ -8,7 +8,7 @@
           <p class="d-flex justify-content-left">Imagem do Evento</p>
           <b-card>
             <b-card-text>
-              <b-img :src="send.photo"></b-img><br/>
+              <b-img :src="send.photo"></b-img><br />
               <b-form-input
                 type="url"
                 id="urlPhoto"
@@ -29,11 +29,11 @@
           </b-card>
         </b-col>
         <b-col class="col-lg-8">
-          <b-p class="d-flex justify-content-left">Informações Empresa</b-p>
+          <p class="d-flex justify-content-left">Informações Evento</p>
           <b-card>
             <b-card-text>
-              <!-- @submit.prevent="createEvent" -->
-              <b-form >
+              
+              <b-form @submit.prevent="createEvent">
                 <b-row>
                   <b-col class="col-lg-6">
                     <b-input-group class="mb-3">
@@ -62,7 +62,7 @@
                         id="txtDate"
                         class="inputProf"
                         placeholder="Data"
-                        v-model="date"
+                        v-model="send.date"
                       >
                       </b-form-input>
                     </b-input-group>
@@ -127,7 +127,7 @@
                         id="txtTime"
                         class="inputProf"
                         placeholder="Hora"
-                        v-model="time"
+                        v-model="send.time"
                       >
                       </b-form-input>
                     </b-input-group>
@@ -154,45 +154,46 @@ export default {
   data() {
     return {
       send: {
-        id_event_type: 0,
-        name: "",
-        date_time_event: "",
-        date_limit: "",
-        price: 0,
-        link: "",
-        address: "",
+         id_event_type: "",
+        name:"",
+        price: "",
         description: "",
         photo: "",
-        nrLimit: 0,
+        date: "",
+        time: "",
+        date_limit: "",
+        link:"",
+        address: "",
+        nrLimit: "",
       },
-      date: "",
-      time: "",
-      options: [
-        {
-          value: this.$store.state.events_type[0].id,
-          text: this.$store.state.events_type[0].description,
-        },
-        {
-          value: this.$store.state.events_type[1].id,
-          text: this.$store.state.events_type[1].description,
-        },
-        {
-          value: this.$store.state.events_type[2].id,
-          text: this.$store.state.events_type[2].description,
-        },
-        {
-          value: this.$store.state.events_type[3].id,
-          text: this.$store.state.events_type[3].description,
-        },
-      ],
+      eventsType: [],
+      options: [],
     };
   },
-  mounted(){
-   this.getEventsType()
+  
+  mounted() {
+    this.getEventsType();
+    this.$store.state.events_type.forEach((type) => {
+      this.options.push({ value: type.id, text: type.description });
+    });
   },
   methods: {
     async getEventsType() {
       await this.$store.dispatch("fetchAllEventTypes");
+    },
+    feedOptions() {
+      console.log("options", this.options);
+      console.log("eventsType", this.eventsType);
+    },
+    createEvent() {
+      try {
+        //chamar ação addCompany
+        this.$store.dispatch("fetchAddEvent", this.$data.send);
+        //saltar para a view admin
+        this.$router.push({ name: "Admin" });
+      } catch (error) {
+        alert(error);
+      }
     },
   },
 };

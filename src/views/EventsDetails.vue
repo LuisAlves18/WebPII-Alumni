@@ -50,7 +50,7 @@
                         id="txtDate"
                         class="inputProf"
                         placeholder="Data"
-                        v-model="date"
+                        v-model="send.date"
                       >
                       </b-form-input>
                     </b-input-group>
@@ -121,7 +121,7 @@
                         id="txtTime"
                         class="inputProf"
                         placeholder="Hora"
-                        v-model="time"
+                        v-model="send.time"
                       >
                       </b-form-input>
                     </b-input-group>
@@ -151,8 +151,8 @@ export default {
         id: this.$store.state.eventsProfileContent.id,
         id_event_type: this.$store.state.eventsProfileContent.id_event_type,
         name: this.$store.state.eventsProfileContent.name,
-        date: this.$store.state.eventsProfileContent.date,
-        time: this.$store.state.eventsProfileContent.time,
+        date: this.date,
+        time: this.time,
         date_limit: this.$store.state.eventsProfileContent.date_limit,
         price: this.$store.state.eventsProfileContent.price,
         link: this.$store.state.eventsProfileContent.link,
@@ -182,10 +182,9 @@ export default {
     },
     editEvent() {
       if (confirm("Pretende confirmar as alterações a este evento?")) {
-        this.send.date_time_event = this.date + "/" + this.time;
         try {
           //chamar ação editEvent
-          //this.$store.dispatch("editEvent", this.$data.send);
+          this.$store.dispatch("editEvent", this.$data.send);
           //saltar para a view Admin
           this.$router.push({ name: "Admin" });
         } catch (error) {

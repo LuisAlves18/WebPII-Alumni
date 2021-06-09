@@ -55,9 +55,7 @@ export const OfferService = {
     console.log("pedido feito");
     const response = await fetch(`${API_URL}/offers/${offer.id}`, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-      },
+      headers:authHeader(),
       body: JSON.stringify({
         id:offer.id,
         companyId: offer.companyId,
