@@ -10,7 +10,7 @@
               ><br />
               <b-button @click="companiesProp()" class="btns">Empresas</b-button
               ><br />
-              <b-button @click="offersProp()" class="btns">Ofertas</b-button
+              <b-button @click="offersProp()" class="btns" id="manageOffers">Ofertas</b-button
               ><br />
               <b-button @click="eventsProp()" class="btns" id="manageEvents">Eventos</b-button
               ><br />
