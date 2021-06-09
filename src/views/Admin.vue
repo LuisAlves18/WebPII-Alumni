@@ -6,13 +6,13 @@
         <b-col class="col-lg-4">
           <b-card>
             <b-card-text>
-              <b-button @click="usersProp()" class="btns">Utilizadores</b-button
+              <b-button @click="usersProp()" class="btns" id="manageUsers">Utilizadores</b-button
               ><br />
               <b-button @click="companiesProp()" class="btns">Empresas</b-button
               ><br />
               <b-button @click="offersProp()" class="btns">Ofertas</b-button
               ><br />
-              <b-button @click="eventsProp()" class="btns">Eventos</b-button
+              <b-button @click="eventsProp()" class="btns" id="manageEvents">Eventos</b-button
               ><br />
             </b-card-text>
           </b-card>
