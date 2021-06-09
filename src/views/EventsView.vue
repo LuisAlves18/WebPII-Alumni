@@ -3,27 +3,39 @@
     <div class="container-xl">
       <div class="row">
         <div class="col-lg-3 leftInfo">
-          <h4 class="float-left mb-3">{{ currentEvent.name }}</h4>
-          <img class="img-fluid" :src="currentEvent.photo" />
+          <h4 class="float-left mb-3">{{ currentEvent.event.name }}</h4>
+          <img class="img-fluid" :src="currentEvent.event.photo" />
           <div class="eventDate">
-            <p class="eventDay">{{ currentEvent.date_time_event.split("T")[0].split("-")[2] }} / {{ currentEvent.date_time_event.split("/")[0].split("-")[1] }}</p>
-            <p class="eventTime">{{ currentEvent.date_time_event.split("T")[1]}}</p>
+            <p class="eventDay">{{ currentEvent.event.date_time_event.split("T")[0].split("-")[2] }} / {{ currentEvent.event.date_time_event.split("T")[0].split("-")[1] }}</p>
+            <p class="eventTime">{{ currentEvent.event.date_time_event.split("T")[1]}}</p>
           </div>
-          <div v-if="this.enrolled == undefined">
-            <button
-              @click="enrollEvent(currentEvent.id)"
-              class="btn btnSubscribe"
-            >
-              Inscrever
-            </button>
-          </div>
-          <div v-else>
-            <button
-              @click="unsubscribeEvent(currentEvent.id)"
-              class="btn btnUnsubscribe"
-            >
-            Cancelar Inscrição
-            </button>
+          <div v-if="currentEvent.message">   
+            <div v-if="currentEvent.message == 'logged'">
+              <button
+                @click="enrollEvent(currentEvent.id)"
+                class="btn btnSubscribe"
+              >
+                Inscrever
+              </button>
+            </div>
+            <div v-else>
+              <span v-if="currentEvent.event.enrollments[0].enrolled == true">
+                <button
+                  @click="unsubscribeEvent(currentEvent.id)"
+                  class="btn btnUnsubscribe"
+                >
+                Cancelar Inscrição
+                </button>
+              </span>
+              <span v-else>
+                  <button
+                  @click="pay()"
+                  class="btn btnUnsubscribe"
+                >
+                Pagar Inscrição
+                </button>
+              </span>
+            </div>
           </div>
         </div>
 
@@ -31,7 +43,7 @@
           <div class="text-left cardDetails">
             <b-card title="Detalhes">
               <div>
-                {{ currentEvent.description }}
+                {{ currentEvent.event.description }}
               </div>
             </b-card>
           </div>
@@ -39,8 +51,7 @@
           <div class="text-left cardLocation">
             <b-card title="Localização">
               <div>
-                This is some content within the defaultthe card's border and
-                this gray
+                {{currentEvent.event.address}}
               </div>
             </b-card>
           </div>

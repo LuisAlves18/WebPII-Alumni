@@ -37,7 +37,7 @@ export const EventService = {
 
         const response = await fetch(`${API_URL}/events/${eventID}`, {
             method: "GET",
-
+            headers: authHeader()
         });
         if (response.ok) {
             let data = await response.json();
