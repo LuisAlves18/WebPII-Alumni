@@ -12,38 +12,36 @@
         background-size: cover;
       "
     >
-<!--     @submit.prevent="filterOffers()"
- -->    <b-form @submit.prevent="filterOffers()" >
-      <p class="offersTitle">Encontre o seu trabalho aqui</p>
+      <!--     @submit.prevent="filterOffers()"
+ -->
+      <b-form @submit.prevent="filterOffers()">
+        <p class="offersTitle">Encontre o seu trabalho aqui</p>
 
-      <div class="headerDropdowns row justify-content-lg-center">
-        <div class="typeDrop col-lg-4">
-          <label for="#dropdownType"> Tipo de Oferta</label>
-          <div class="dropdown" id="dropdownType">
-            <b-select
-              id="dropdownMenuButton"
-              class="btn dropdown-toggle buttonHeader"
-              v-model="send.typeOfferId"
-              size="sm" 
-            >
-              <option
-                v-for="type in this.$store.state.offers_type"
-                :key="type.id"
-                :value="type.id"
+        <div class="headerDropdowns row justify-content-lg-center">
+          <div class="typeDrop col-lg-4">
+            <label for="#dropdownType"> Tipo de Oferta</label>
+            <div class="dropdown" id="dropdownType">
+              <b-select
+                id="dropdownMenuButton"
+                class="btn dropdown-toggle buttonHeader offerType"
+                v-model="send.typeOfferId"
               >
-                {{ type.description }}
-              </option>
-            </b-select>
-            
+                <option
+                  v-for="type in this.$store.state.offers_type"
+                  :key="type.id"
+                  :value="type.id"
+                >
+                  {{ type.description }}
+                </option>
+              </b-select>
+            </div>
           </div>
-        </div>
-        <div class="cursoDrop col-lg-4">
-          <label for="#dropdownCurso">Curso Frequentado</label>
-          <b-form-select
+          <div class="cursoDrop col-lg-4">
+            <label for="#dropdownCurso">Curso Frequentado</label>
+            <b-form-select
               id="dropdownMenuButton"
-              class="btn dropdown-toggle buttonHeader"
+              class="btn dropdown-toggle buttonHeader offerCourse"
               v-model="send.areaId"
-              size="sm" 
             >
               <option
                 v-for="area in this.$store.state.areas"
@@ -53,23 +51,22 @@
                 {{ area.description }}
               </option>
             </b-form-select>
+          </div>
+          <div class="companyFilter col-lg-4">
+            <label for="searchCompany">Empresa</label>
+            <input
+              v-model="send.name"
+              type="text"
+              id="searchCompany"
+              class="form-control filterCompanyInput"
+              placeholder="Empresa"
+              aria-label="Empresa"
+            />
+          </div>
+          <b-button type="submit" class="filterButton mt-5">Filtrar</b-button>
         </div>
-        <div class="companyFilter col-lg-4">
-          <label for="searchCompany">Empresa</label>
-          <input
-          v-model="send.name"
-            type="text"
-            id="searchCompany"
-            class="form-control filterCompanyInput"
-            placeholder="Empresa"
-            aria-label="Empresa"
-          />
-        </div>
-        <b-button type="submit">submit</b-button>
-      </div>
       </b-form>
     </div>
-    
 
     <!-- <router-link to="/offers/jobs">Ofertas Profissionais</router-link> |
     <router-link to="/offers/internships">Estágios</router-link> |
@@ -136,14 +133,12 @@ export default {
   data() {
     return {
       send: {
-        typeOfferId:'',
-        areaId:'',
-        name:''
-
+        typeOfferId: "",
+        areaId: "",
+        name: "",
       },
       checkedType: [],
       checkedArea: [],
-      
     };
   },
   mounted() {
@@ -169,7 +164,7 @@ export default {
     async getAllOffersType() {
       await this.$store.dispatch("fetchAllOffersType");
     },
-    async filterOffers(){
+    async filterOffers() {
       /* console.log("send",this.send)
      this.req=""
       if(this.send.typeOfferId.length>0){
@@ -185,7 +180,7 @@ export default {
       return this.$store.state.offers.filter((offer) => {
         let filterOffersType = true;
         let filterOffersArea = true;
-        let checkedTypeLth =  this.send.typeOfferId.length;
+        let checkedTypeLth = this.send.typeOfferId.length;
         let checkedAreaLth = this.send.areaId.length;
         if (checkedTypeLth != 0) {
           for (let i = 0; i < checkedTypeLth; i++) {
@@ -238,7 +233,7 @@ export default {
       return this.$store.state.offers.filter((offer) => {
         let filterOffersType = true;
         let filterOffersArea = true;
-        let checkedTypeLth =  this.send.typeOfferId.length;
+        let checkedTypeLth = this.send.typeOfferId.length;
         let checkedAreaLth = this.send.areaId.length;
         if (checkedTypeLth != 0) {
           for (let i = 0; i < checkedTypeLth; i++) {
@@ -277,11 +272,31 @@ html {
 .buttonHeader {
   border-radius: 5px;
   background-color: rgb(225, 93, 68) !important;
-  color: white;
+  color: white !important;
+  border: none;
 }
 
 .buttonHeader:hover {
   color: white;
+}
+
+.offerType {
+  width: 200px !important;
+}
+
+.offerCourse {
+  width: 200px !important;
+}
+
+.filterButton{
+  background-color: #e2583e;
+  color: white;
+  border: none;
+
+}
+
+.filterButton:hover{
+  background-color: #e2583e;
 }
 
 .buttonHeader:focus {
