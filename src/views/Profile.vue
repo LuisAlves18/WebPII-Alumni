@@ -58,6 +58,7 @@
                   <div class="input-group mb-3">
                     <input
                       type="url"
+                      id="profileInstagram"
                       class="form-control inputProfile"
                       placeholder="Instgram"
                       v-model="send.instagram"
