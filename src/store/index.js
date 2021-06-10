@@ -402,6 +402,18 @@ export default new Vuex.Store({
         //return Promise.reject(error);
       }
     },
+    async fetchFilteredOffers({commit},req){
+      try {
+        const response = await OfferService.fetchFilteredOffers(req);
+        // console.log("STORE REGISTER SUCCES: response is...")
+        console.log(response);
+        commit("SET_MESSAGE", response.message);
+      } catch (error) {
+        console.log("filterFails FAILS");
+        console.log(error);
+        throw error;
+      }
+    },
     async editOffer({ commit }, offer) {
       try {
         const response = await OfferService.fetchUpdateOffer(offer);

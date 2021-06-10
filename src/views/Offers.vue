@@ -12,62 +12,64 @@
         background-size: cover;
       "
     >
+<!--     @submit.prevent="filterOffers()"
+ -->    <b-form @submit.prevent="filterOffers()" >
       <p class="offersTitle">Encontre o seu trabalho aqui</p>
 
       <div class="headerDropdowns row justify-content-lg-center">
         <div class="typeDrop col-lg-4">
           <label for="#dropdownType"> Tipo de Oferta</label>
           <div class="dropdown" id="dropdownType">
-            <button
-              class="btn dropdown-toggle buttonHeader"
-              type="button"
+            <b-select
               id="dropdownMenuButton"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
+              class="btn dropdown-toggle buttonHeader"
+              v-model="send.typeOfferId"
+              size="sm" 
             >
-              Tipo de Oferta
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a
-                class="dropdown-item"
+              <option
                 v-for="type in this.$store.state.offers_type"
                 :key="type.id"
-                >{{ type.description }}</a
+                :value="type.id"
               >
-            </div>
+                {{ type.description }}
+              </option>
+            </b-select>
+            
           </div>
         </div>
-
         <div class="cursoDrop col-lg-4">
           <label for="#dropdownCurso">Curso Frequentado</label>
-          <div class="dropdown" id="dropdownCurso">
-            <button
-              class="btn dropdown-toggle buttonHeader"
-              type="button"
+          <b-form-select
               id="dropdownMenuButton"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
+              class="btn dropdown-toggle buttonHeader"
+              v-model="send.areaId"
+              size="sm" 
             >
-              Curso Frequentado
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a
-                class="dropdown-item"
+              <option
                 v-for="area in this.$store.state.areas"
                 :key="area.id"
-                >{{ area.description }}</a
+                :value="area.id"
               >
-            </div>
-          </div>
+                {{ area.description }}
+              </option>
+            </b-form-select>
         </div>
         <div class="companyFilter col-lg-4">
           <label for="searchCompany">Empresa</label>
-          <input type="text" id="searchCompany" class="form-control filterCompanyInput" placeholder="Empresa" aria-label="Empresa">
+          <input
+          v-model="send.name"
+            type="text"
+            id="searchCompany"
+            class="form-control filterCompanyInput"
+            placeholder="Empresa"
+            aria-label="Empresa"
+          />
         </div>
+        <b-button type="submit">submit</b-button>
       </div>
+      </b-form>
     </div>
+    
 
     <!-- <router-link to="/offers/jobs">Ofertas Profissionais</router-link> |
     <router-link to="/offers/internships">Estágios</router-link> |
@@ -133,32 +135,82 @@ export default {
   components: {},
   data() {
     return {
+      send: {
+        typeOfferId:'',
+        areaId:'',
+        name:''
+
+      },
       checkedType: [],
       checkedArea: [],
+      
     };
   },
-  mounted(){
+  mounted() {
+    this.storeOffers();
 
-    this.storeOffers()
-    
     /* this.getAllCompanies() */
-    this.getAllOffersType()
-     this.getAllAreas()
+    this.getAllOffersType();
+    this.getAllAreas();
   },
+  created() {},
   methods: {
     async storeOffers() {
       await this.$store.dispatch("fetchAllOffers");
-      console.log(this.$store.state.offers)
+      console.log(this.$store.state.offers);
     },
     /* async getAllCompanies(){
       await this.$store.dispatch("fetchAllCompanies");
     }, */
-    async getAllAreas(){
+    async getAllAreas() {
       await this.$store.dispatch("fetchAllAreas");
-      console.log("areas",this.$store.state.areas)
+      console.log("areas", this.$store.state.areas);
     },
-    async getAllOffersType(){
-     await this.$store.dispatch("fetchAllOffersType")
+    async getAllOffersType() {
+      await this.$store.dispatch("fetchAllOffersType");
+    },
+    async filterOffers(){
+      /* console.log("send",this.send)
+     this.req=""
+      if(this.send.typeOfferId.length>0){
+        this.req+=`type=${this.send.typeOfferId}&`
+      }
+      if(this.send.areaId.length>0){
+        this.req+=`area=${this.send.areaId}&`
+      }
+      if(this.send.name.length>0){
+        this.req+=`name=${this.send.name}`
+      }
+      await this.$store.dispatch("fetchFilteredOffers",this.req) */
+      return this.$store.state.offers.filter((offer) => {
+        let filterOffersType = true;
+        let filterOffersArea = true;
+        let checkedTypeLth =  this.send.typeOfferId.length;
+        let checkedAreaLth = this.send.areaId.length;
+        if (checkedTypeLth != 0) {
+          for (let i = 0; i < checkedTypeLth; i++) {
+            if (offer.typeOfferId == this.send.typeOfferId) {
+              filterOffersType = true;
+            } else {
+              filterOffersType = false;
+            }
+          }
+        } else {
+          filterOffersType = true;
+        }
+        if (checkedAreaLth != 0) {
+          for (let i = 0; i < checkedAreaLth; i++) {
+            if (offer.areaId == this.send.areaId) {
+              filterOffersArea = true;
+            } else {
+              filterOffersArea = false;
+            }
+          }
+        } else {
+          filterOffersArea = true;
+        }
+        return filterOffersType && filterOffersArea;
+      });
     },
     getLogobyId(id) {
       return this.$store.state.companies.find((company) => company.id === id)
@@ -179,21 +231,18 @@ export default {
       return this.$store.state.companies.find((company) => company.id === id)
         .address;
     },
-    
   },
-  
+
   computed: {
-    
     filteredOffers() {
-      console.log(this.$store.state.offers)
       return this.$store.state.offers.filter((offer) => {
         let filterOffersType = true;
         let filterOffersArea = true;
-        let checkedTypeLth = this.checkedType.length;
-        let checkedAreaLth = this.checkedArea.length;
+        let checkedTypeLth =  this.send.typeOfferId.length;
+        let checkedAreaLth = this.send.areaId.length;
         if (checkedTypeLth != 0) {
           for (let i = 0; i < checkedTypeLth; i++) {
-            if (offer.typeOfferId == this.checkedType[i]) {
+            if (offer.typeOfferId == this.send.typeOfferId) {
               filterOffersType = true;
             } else {
               filterOffersType = false;
@@ -204,7 +253,7 @@ export default {
         }
         if (checkedAreaLth != 0) {
           for (let i = 0; i < checkedAreaLth; i++) {
-            if (offer.typeOfferId == this.checkedArea[i]) {
+            if (offer.areaId == this.send.areaId) {
               filterOffersArea = true;
             } else {
               filterOffersArea = false;
@@ -225,7 +274,6 @@ template,
 html {
   overflow-x: hidden;
 }
-
 .buttonHeader {
   border-radius: 5px;
   background-color: rgb(225, 93, 68) !important;
@@ -262,12 +310,12 @@ html {
   font-size: 3vmin;
 }
 
-.companyFilter label{
+.companyFilter label {
   color: white;
   font-size: 3vmin;
 }
 
-.filterCompanyInput{
+.filterCompanyInput {
   width: 200px !important;
   margin-left: auto;
   margin-right: auto;
@@ -288,7 +336,8 @@ ul {
   padding-left: 5px;
 }
 .cardOffer {
-  box-shadow: rgba(15, 76, 129, 0.4) 0px 10px 20px, rgba(200, 200, 200, 0.23) 0px 6px 6px;
+  box-shadow: rgba(15, 76, 129, 0.4) 0px 10px 20px,
+    rgba(200, 200, 200, 0.23) 0px 6px 6px;
   height: 17rem;
 }
 .iconOffer {
