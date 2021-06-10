@@ -35,6 +35,8 @@ export const UserService = {
          {
              // console.log("USER SERVICE - fetch 1 USER")
              // console.log(response)
+             let data = await response.json();
+            alert(data.message);
              throw Error(handleResponses(response.status));
          }
      },
@@ -54,6 +56,8 @@ export const UserService = {
         } else {
             // console.log("USER SERVICE - fetch ALL USERS: ERROR ");
             // console.log(response)
+            let data = await response.json();
+            alert(data.message);
             throw Error(handleResponses(response.status));
         }
 
@@ -72,9 +76,12 @@ export const UserService = {
         if (response.ok) {
             //update name of the user in localstorage
             let data = await response.json();
+            alert(data.message)
             return data;
         }
         else {
+            let data = await response.json();
+            alert(data.message);
             throw Error(handleResponses(response.status));
         }
     },
@@ -95,9 +102,12 @@ export const UserService = {
         if (response.ok) {
             //update name of the user in localstorage
             let data = await response.json();
+            alert(data.message)
             return data;
         }
         else {
+            let data = await response.json();
+            alert(data.message);
             throw Error(handleResponses(response.status));
         }
     },
@@ -108,9 +118,12 @@ export const UserService = {
         });
         if (response.ok) {
             let data = await response.json();
+            alert(data.message)
             return data;
         }
         else {
+            let data = await response.json();
+            alert(data.message);
             throw Error(handleResponses(response.status));
         }
     },

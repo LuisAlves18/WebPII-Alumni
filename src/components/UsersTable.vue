@@ -44,6 +44,7 @@ export default {
       try {
         //chamar ação removeUser
         this.$store.dispatch("removeUser", userToRemove);
+        this.$router.push({ name: "Home" });
         //refresh
         //this.$router.go();
       } catch (error) {

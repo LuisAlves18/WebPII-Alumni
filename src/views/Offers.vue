@@ -141,7 +141,7 @@ export default {
 
     this.storeOffers()
     
-    this.getAllCompanies()
+    /* this.getAllCompanies() */
     this.getAllOffersType()
      this.getAllAreas()
   },
@@ -150,9 +150,9 @@ export default {
       await this.$store.dispatch("fetchAllOffers");
       console.log(this.$store.state.offers)
     },
-    async getAllCompanies(){
+    /* async getAllCompanies(){
       await this.$store.dispatch("fetchAllCompanies");
-    },
+    }, */
     async getAllAreas(){
       await this.$store.dispatch("fetchAllAreas");
       console.log("areas",this.$store.state.areas)

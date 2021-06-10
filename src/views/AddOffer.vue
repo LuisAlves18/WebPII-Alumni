@@ -174,7 +174,7 @@ export default {
         this.$store.dispatch("addOffer", this.$data.send);
 
         //saltar para a view admin
-        this.$router.push({ name: "Admin" });
+        this.$router.push({ name: "Home" });
       } catch (error) {
         alert(error);
       }

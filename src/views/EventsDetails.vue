@@ -15,7 +15,7 @@
           >
         </b-col>
         <b-col class="col-lg-8">
-          <p class="d-flex justify-content-left">Informações Empresa</p>
+          <p class="d-flex justify-content-left">Informações Evento</p>
           <b-card>
             <b-card-text>
               <b-form @submit.prevent="editEvent">
@@ -170,7 +170,7 @@ export default {
     const splitDateTime = this.$store.state.eventsProfileContent.date_time_event.split(
       " "
     );
-    this.date = splitDateTime[0];
+    this.date = Date(splitDateTime[0]);
     this.time = splitDateTime[1];
   },
   
@@ -186,7 +186,7 @@ export default {
           //chamar ação editEvent
           this.$store.dispatch("editEvent", this.$data.send);
           //saltar para a view Admin
-          this.$router.push({ name: "Admin" });
+          this.$router.push({ name: "Home" });
         } catch (error) {
           alert(error);
         }

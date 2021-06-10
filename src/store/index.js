@@ -21,12 +21,11 @@ export default new Vuex.Store({
     companies: [],
     events: [],
     events_type: [],
-    enrollments: localStorage.getItem("enrollments")
-      ? JSON.parse(localStorage.getItem("enrollments"))
-      : [],
+    enrollments: [],
     offers: [],
     offers_type: [],
     areas: [],
+    message: []
   },
   getters: {
     getEvents: (state) => state.events,
@@ -44,9 +43,11 @@ export default new Vuex.Store({
       try {
         const loggedUser = await AuthService.login(user);
         commit("LOGIN_SUCCESS", loggedUser);
+        let message = "Login Efetuado com sucesso.";
+        commit("SET_MESSAGE", message);
       } catch (error) {
         commit("LOGIN_FAILURE");
-
+        commit("SET_MESSAGE", error.message);
         throw error;
       }
     },
@@ -245,6 +246,23 @@ export default new Vuex.Store({
         //return Promise.reject(error);
       }
     },
+    async fetchOneEventEnrollments({ commit }, eventID) {
+      try {
+        console.log("pedido feito");
+        const events = await EventService.fetchOneEventEnrollments(eventID);
+        console.log("STORE enrollments: " + events.length);
+        commit("SET_EVENT_ENROLLMENTS", events);
+
+        //return Promise.resolve(users);
+      } catch (error) {
+        // console.log('STORE listUsers: ' + error);
+        console.log("error");
+        commit("SET_EVENT_ENROLLMENTS", []);
+        commit("SET_MESSAGE", error);
+        throw error; // Needed to continue propagating the error
+        //return Promise.reject(error);
+      }
+    },
     async fetchAddEvent({ commit }, event) {
       try {
         const response = await EventService.fetchAddEvent(event);
@@ -253,6 +271,18 @@ export default new Vuex.Store({
         commit("SET_MESSAGE", response.message);
       } catch (error) {
         console.log("add event FAILS");
+        console.log(error);
+        throw error;
+      }
+    },
+    async fetchGivePoints({ commit }, eventID) {
+      try {
+        const response = await EventService.fetchGivePoints(eventID);
+        // console.log("STORE REGISTER SUCCES: response is...")
+        console.log(response);
+        commit("SET_MESSAGE", response.message);
+      } catch (error) {
+        console.log("give points FAILS");
         console.log(error);
         throw error;
       }
@@ -503,6 +533,10 @@ export default new Vuex.Store({
     SET_EVENT(state, payload) {
       console.log("STORE MUTATION SET_EVENTS: " + payload.length);
       state.events = payload;
+    },
+    SET_EVENT_ENROLLMENTS(state, payload) {
+      console.log("STORE MUTATION SET_EVENT_ENROLLMENTS: " + payload.length);
+      state.enrollments = payload;
     },
     SET_EVENTTYPE(state, payload) {
       console.log("STORE MUTATION SET_EVENTSTYPE: " + payload.length);

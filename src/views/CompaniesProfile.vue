@@ -139,7 +139,7 @@ export default {
         //chamar ação editCompany
         this.$store.dispatch("editCompany", this.$data.send);
         //saltar para a view Admin
-        this.$router.push({ name: "Admin" });
+        this.$router.push({ name: "Home" });
       } catch (error) {
         alert(error);
       }

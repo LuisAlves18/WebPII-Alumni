@@ -31,6 +31,7 @@ export const OfferService = {
     } else {
       // console.log("USER SERVICE - fetch ALL USERS: ERROR ");
       // console.log(response)
+      
       throw Error(handleResponses(response.status));
     }
   },
@@ -48,6 +49,8 @@ export const OfferService = {
     } else {
       // console.log("USER SERVICE - fetch ALL USERS: ERROR ");
       // console.log(response)
+      let data = await response.json();
+            alert(data.message);
       throw Error(handleResponses(response.status));
     }
   },
@@ -68,11 +71,14 @@ export const OfferService = {
     if (response.ok) {
       let data = await response.json();
       // console.log("USER SERVICE - fetch ALL USERS")
+      alert(data.message)
       console.log(data);
       return data;
     } else {
       // console.log("USER SERVICE - fetch ALL USERS: ERROR ");
       // console.log(response)
+      let data = await response.json();
+            alert(data.message);
       throw Error(handleResponses(response.status));
     }
   },
@@ -94,11 +100,14 @@ export const OfferService = {
     if (response.ok) {
       let data = await response.json();
       // console.log("USER SERVICE - fetch ALL USERS")
+      alert(data.message)
       console.log(data);
       return data;
     } else {
       // console.log("USER SERVICE - fetch ALL USERS: ERROR ");
       // console.log(response)
+      let data = await response.json();
+            alert(data.message);
       throw Error(handleResponses(response.status));
     }
   },
@@ -109,9 +118,12 @@ export const OfferService = {
     });
     if (response.ok) {
         let data = await response.json();
+        alert(data.message)
         return data;
     }
     else {
+      let data = await response.json();
+            alert(data.message);
         throw Error(handleResponses(response.status));
     }
 },
@@ -130,6 +142,7 @@ async fetchAllOffersType() {
   } else {
     // console.log("USER SERVICE - fetch ALL USERS: ERROR ");
     // console.log(response)
+
     throw Error(handleResponses(response.status));
   }
 },

@@ -18,6 +18,7 @@ export const EventService = {
   async fetchAllEvents() {
     const response = await fetch(`${API_URL}/events`, {
       method: "GET",
+      headers: authHeader(),
     });
     if (response.ok) {
       let data = await response.json();
@@ -27,6 +28,8 @@ export const EventService = {
     } else {
       // console.log("USER SERVICE - fetch ALL USERS: ERROR ");
       // console.log(response)
+      let data = await response.json();
+      alert(data.message);
       throw Error(handleResponses(response.status));
     }
   },
@@ -43,6 +46,8 @@ export const EventService = {
     } else {
       // console.log("USER SERVICE - fetch ALL USERS: ERROR ");
       // console.log(response)
+      let data = await response.json();
+            alert(data.message);
       throw Error(handleResponses(response.status));
     }
   },
@@ -67,12 +72,15 @@ export const EventService = {
     });
     if (response.ok) {
       let data = await response.json();
+      alert(data.message)
       // console.log("USER SERVICE - fetch ALL USERS")
       console.log(data);
       return data;
     } else {
       // console.log("USER SERVICE - fetch ALL USERS: ERROR ");
       // console.log(response)
+      let data = await response.json();
+            alert(data.message);
       throw Error(handleResponses(response.status));
     }
   },
@@ -97,12 +105,15 @@ export const EventService = {
     });
     if (response.ok) {
       let data = await response.json();
+      alert(data.message)
       // console.log("USER SERVICE - fetch ALL USERS")
       console.log(data);
       return data;
     } else {
       // console.log("USER SERVICE - fetch ALL USERS: ERROR ");
       // console.log(response)
+      let data = await response.json();
+            alert(data.message);
       throw Error(handleResponses(response.status));
     }
   },
@@ -113,8 +124,11 @@ export const EventService = {
     });
     if (response.ok) {
       let data = await response.json();
+      alert(data.message)
       return data;
     } else {
+      let data = await response.json();
+            alert(data.message);
       throw Error(handleResponses(response.status));
     }
   },
@@ -129,6 +143,24 @@ export const EventService = {
     } else {
       // console.log("USER SERVICE - fetch ALL USERS: ERROR ");
       // console.log(response)
+      throw Error(handleResponses(response.status));
+    }
+  },
+  async fetchGivePoints(eventID) {
+    const response = await fetch(`${API_URL}/events/${eventID}/points`, {
+      method: "PUT",
+      headers: authHeader()
+    });
+    if (response.ok) {
+      let data = await response.json();
+      alert(data.message)
+      console.log(data);
+      return data;
+    } else {
+      // console.log("USER SERVICE - fetch ALL USERS: ERROR ");
+      // console.log(response)
+      let data = await response.json();
+            alert(data.message);
       throw Error(handleResponses(response.status));
     }
   },
@@ -153,11 +185,14 @@ export const EventService = {
     if (response.ok) {
       let data = await response.json();
       // console.log("USER SERVICE - fetch ALL USERS")
+      alert(data.message)
       console.log(data);
       return data;
     } else {
       // console.log("USER SERVICE - fetch ALL USERS: ERROR ");
       // console.log(response)
+      let data = await response.json();
+            alert(data.message);
       throw Error(handleResponses(response.status));
     }
   },
@@ -169,10 +204,12 @@ export const EventService = {
     });
     if (response.ok) {
       let data = await response.json();
-  
+      alert(data.message)
       console.log(data);
       return data;
     } else {
+      let data = await response.json();
+            alert(data.message);
       throw Error(handleResponses(response.status));
     }
   },
@@ -191,10 +228,30 @@ export const EventService = {
     });
     if (response.ok) {
       let data = await response.json();
-  
+      alert(data.message)
       console.log(data);
       return data;
     } else {
+      let data = await response.json();
+            alert(data.message);
+      throw Error(handleResponses(response.status));
+    }
+  },
+  async fetchOneEventEnrollments(eventID) {
+    const response = await fetch(`${API_URL}/events/${eventID}/enrollments`, {
+      method: "GET",
+      headers: authHeader(),
+    });
+    if (response.ok) {
+      let data = await response.json();
+      // console.log("USER SERVICE - fetch ALL USERS")
+      console.log(data);
+      return data;
+    } else {
+      // console.log("USER SERVICE - fetch ALL USERS: ERROR ");
+      // console.log(response)
+      let data = await response.json();
+            alert(data.message);
       throw Error(handleResponses(response.status));
     }
   },

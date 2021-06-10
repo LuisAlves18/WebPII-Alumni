@@ -264,6 +264,7 @@ export default {
     },
     editProfile() {
       this.$store.dispatch("editProfile", this.$data.send);
+      this.$router.push({ name: "Home" });
     },
     /* filteredEnrollments() {
       return this.$store.state.enrollments.filter(

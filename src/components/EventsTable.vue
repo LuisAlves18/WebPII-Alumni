@@ -10,7 +10,7 @@
             <tr v-for="event in this.eventsContent" :key="event.id">
                 <td>{{event.name}}</td>
                 <td>{{event.id_event_type}}</td>
-                <td>Data: {{event.date_time_event[0]}} & Hora:{{getDateAndTime(event.date_time_event)[1]}}</td>
+                <td>Data: {{event.date_time_event.split('T')[0]}} & Hora:{{event.date_time_event.split('T')[1].split(':')[0]}}:{{event.date_time_event.split('T')[1].split(':')[1]}}</td>
                 <td>
                     <b-button @click="seeMoreEvent(event)" class="btns">Detalhes</b-button>
                     <b-button @click="manageEnrollments(event)" class="btns">Inscrições</b-button>
@@ -52,7 +52,7 @@
             },
             removeEvent(id) {
                 this.$store.dispatch('removeEvent', id)
-                //this.$router.go();
+                this.$router.push({name: 'Home'})
             },
             manageEnrollments(event) {
                 this.$store.dispatch('manageEnrollments', event)
