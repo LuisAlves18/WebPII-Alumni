@@ -97,7 +97,7 @@
           <h4 class="d-flex justify-content-left">Seus Eventos</h4>
           <div class="card eventsCard">
             <div class="container cardContent">
-              <!-- <div v-if="filteredEnrollments().length != 0">
+              <div >
                 <table class="tableEvents">
                   <tr class="tableContent">
                     <th>Nome</th>
@@ -107,28 +107,29 @@
                   </tr>
                   <tr
                     class="tableContent"
-                    v-for="enrollment in filteredEnrollments()"
-                    :key="enrollment.idEvent"
+                    v-for="enrollment in currentUser.enrollments"
+                    :key="enrollment.id"
                   >
-                    <td>{{ //getEventById(enrollment.idEvent) }}</td>
+                    <td>{{ enrollment.event.name}}</td>
                     <td>
-                      {{ //getDateTimeById(enrollment.idEvent).split("/")[0] }}
+                      {{ enrollment.event.date_time_event.split("T")[0] }}
                     </td>
                     <td>
-                      {{ //getDateTimeById(enrollment.idEvent).split("/")[1] }}
+                      {{ enrollment.event.date_time_event.split("T")[1].split(":")[0] }}:{{ enrollment.event.date_time_event.split("T")[1].split(":")[1] }}
                     </td>
                     <td>
-                      <button
-                        @click="unsubscribeEvent(enrollment.idEvent)"
-                        class="btn btnUnsubscribe"
-                      >
-                        Cancelar
-                      </button>
+                      <router-link
+                    id="seeMoreEvents"
+                    :to="{ name: 'EventsView', params: { EventId: enrollment.event.id } }"
+                    tag="b-button"
+                  >
+                    VER
+                  </router-link>
                     </td>
                   </tr>
                 </table>
               </div>
-              <div v-else class="mt-3 tableEventsCard">
+              <!-- <div v- class="mt-3 tableEventsCard">
                 <h4>Sem Inscrições em Eventos</h4>
                 <button class="btn btnApplyEvent">Ver Eventos</button>
               </div> -->
@@ -235,9 +236,6 @@ export default {
   },
   mounted(){
     this.getOneUser()
-    
-    
-    
   },
   methods: {
 
@@ -265,31 +263,9 @@ export default {
     },
     editProfile() {
       this.$store.dispatch("editProfile", this.$data.send);
+      this.$router.push({ name: "Home" });
     },
-    /* filteredEnrollments() {
-      return this.$store.state.enrollments.filter(
-        (enrollment) =>
-          enrollment.idUser === this.$store.getters.getLoggedUser.nrAluno
-      );
-    },
-    getEventById(id) {
-      return this.$store.state.events.find((event) => event.id === id).name;
-    },
-    getDateTimeById(id) {
-      return this.$store.state.events.find((event) => event.id === id)
-        .date_time_event;
-    },
-    unsubscribeEvent(eventId) {
-      try {
-        this.$store.dispatch("unsubscribeEvent", {
-          idEvent: eventId,
-          idUser: this.$store.getters.getLoggedUser.nrAluno,
-        });
-        alert("Inscrição cancelada com sucesso!");
-      } catch (error) {
-        alert(error);
-      }
-    }, */
+    
   },
   
   

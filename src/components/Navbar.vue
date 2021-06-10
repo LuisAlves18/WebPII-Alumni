@@ -58,8 +58,8 @@
           <b-nav-item-dropdown
             class="navDrop"
             :text="
-              this.$store.getters.getLoggedUser.fname +
-              this.$store.getters.getLoggedUser.lname
+              this.$store.getters.getLoggedUser.first_name + ' ' +
+              this.$store.getters.getLoggedUser.last_name
             "
             right
           >

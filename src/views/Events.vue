@@ -49,8 +49,10 @@
                     </p>
                     <p>
                       <span id="cardHour" class="d-flex justify-content-left">{{
-                        event.date_time_event.split("T")[1].replace(".000Z","")
-                      }}</span>
+                        event.date_time_event.split("T")[1].split(':')[0]
+                      }}:{{
+                        event.date_time_event.split("T")[1].split(':')[1]
+                      }}H</span>
                     </p>
                     <p id="cardDescp" class="d-flex justify-content-left">
                       {{ event.description }}

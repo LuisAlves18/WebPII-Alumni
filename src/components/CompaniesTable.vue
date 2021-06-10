@@ -47,7 +47,7 @@
                     //chamar ação removeCompany
                     this.$store.dispatch("removeCompany", company);
                     //saltar para a view refresh
-                    this.$router.go();
+                    this.$router.push({ name: "Home" });
                 } catch (error) {
                     alert(error);
                 }

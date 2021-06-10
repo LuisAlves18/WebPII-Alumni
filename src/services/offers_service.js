@@ -15,6 +15,7 @@ function authHeader() {
       return { 'Content-Type': 'application/json' }; //otherwise, return an empty object
   }
 }
+
 export const OfferService = {
   async fetchAllOffers() {
     // console.log(" USER SERVICE - fetch ALL USERS started...")
@@ -31,6 +32,26 @@ export const OfferService = {
     } else {
       // console.log("USER SERVICE - fetch ALL USERS: ERROR ");
       // console.log(response)
+      
+      throw Error(handleResponses(response.status));
+    }
+  },
+  async fetchFilteredOffers(paramsReq) {
+    // console.log(" USER SERVICE - fetch ALL USERS started...")
+    // return axios.get(API_URL + 'admin', { headers: authHeader() });
+    const response = await fetch(`${API_URL}/offers/?${paramsReq}`, {
+      method: "GET",
+      headers:authHeader()
+    });
+    if (response.ok) {
+      let data = await response.json();
+      // console.log("USER SERVICE - fetch ALL USERS")
+      // console.log(data)
+      return data;
+    } else {
+      // console.log("USER SERVICE - fetch ALL USERS: ERROR ");
+      // console.log(response)
+      
       throw Error(handleResponses(response.status));
     }
   },
@@ -48,6 +69,8 @@ export const OfferService = {
     } else {
       // console.log("USER SERVICE - fetch ALL USERS: ERROR ");
       // console.log(response)
+      let data = await response.json();
+            alert(data.message);
       throw Error(handleResponses(response.status));
     }
   },
@@ -68,11 +91,14 @@ export const OfferService = {
     if (response.ok) {
       let data = await response.json();
       // console.log("USER SERVICE - fetch ALL USERS")
+      alert(data.message)
       console.log(data);
       return data;
     } else {
       // console.log("USER SERVICE - fetch ALL USERS: ERROR ");
       // console.log(response)
+      let data = await response.json();
+            alert(data.message);
       throw Error(handleResponses(response.status));
     }
   },
@@ -94,11 +120,14 @@ export const OfferService = {
     if (response.ok) {
       let data = await response.json();
       // console.log("USER SERVICE - fetch ALL USERS")
+      alert(data.message)
       console.log(data);
       return data;
     } else {
       // console.log("USER SERVICE - fetch ALL USERS: ERROR ");
       // console.log(response)
+      let data = await response.json();
+            alert(data.message);
       throw Error(handleResponses(response.status));
     }
   },
@@ -109,9 +138,12 @@ export const OfferService = {
     });
     if (response.ok) {
         let data = await response.json();
+        alert(data.message)
         return data;
     }
     else {
+      let data = await response.json();
+            alert(data.message);
         throw Error(handleResponses(response.status));
     }
 },
@@ -130,10 +162,10 @@ async fetchAllOffersType() {
   } else {
     // console.log("USER SERVICE - fetch ALL USERS: ERROR ");
     // console.log(response)
+
     throw Error(handleResponses(response.status));
   }
 },
-
   // sends request to API root
   async getPublicContent() {
     // return axios.get(API_URL);

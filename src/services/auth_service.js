@@ -20,8 +20,11 @@ export const AuthService = {
       // console.log("LOGIN SERVICE OK")
       // console.log(data)
       if (data.accessToken) localStorage.setItem("user", JSON.stringify(data));
+      alert('Login efetuado com sucesso!');
       return data;
     } else {
+      const data = await response.json();
+      alert(data.message);
       throw Error(handleResponses(response.status));
     }
   },
@@ -48,9 +51,12 @@ export const AuthService = {
     });
     if (response.ok) {
       const data = await response.json();
+      alert(data.message);
       console.log(data)
       return data;
     } else {
+      const data = await response.json();
+      alert(data.message);
       throw Error(response.message);
     }
   },

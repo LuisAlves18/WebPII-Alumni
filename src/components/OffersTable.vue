@@ -53,7 +53,7 @@ export default {
     },
     removeOffer(id) {
       this.$store.dispatch("removeOffer", id);
-      //this.$router.go();
+      this.$router.push({ name: "Home" });
     },
   },
 };

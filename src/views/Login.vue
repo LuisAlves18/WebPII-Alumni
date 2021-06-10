@@ -199,6 +199,8 @@ export default {
       try {
         //chamar ação login
         this.$store.dispatch("login", this.$data);
+        //mensagem de sucesso/erro
+        /* alert(this.$store.state.message); */
         //saltar para a view Home
         this.$router.push({ name: "Home" });
       } catch (error) {

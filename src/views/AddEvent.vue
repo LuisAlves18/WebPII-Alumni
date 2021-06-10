@@ -189,8 +189,8 @@ export default {
       try {
         //chamar ação addCompany
         this.$store.dispatch("fetchAddEvent", this.$data.send);
-        //saltar para a view admin
-        this.$router.push({ name: "Admin" });
+        //saltar para a view home
+        this.$router.push({ name: "Home" });
       } catch (error) {
         alert(error);
       }

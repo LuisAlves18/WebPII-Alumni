@@ -6,8 +6,8 @@
           <b-p class="d-flex justify-content-left">Imagem do Evento</b-p>
           <b-card>
             <b-card-text>
-              <b-img :src="photo"></b-img><br />
-              <b-p>{{ this.eventName }}</b-p>
+              <b-img :src="currentEvent[0].event.photo"></b-img><br />
+              <b-p>{{ currentEvent[0].event.name }}</b-p>
             </b-card-text>
           </b-card>
         </b-col>
@@ -24,27 +24,20 @@
                   <th>Estado</th>
                   <th>Ações</th>
                 </tr>
-                <tr v-for="enrollment in filterEvent" :key="enrollment.idUser">
-                  <td>{{ getUserNameById(enrollment.idUser) }}</td>
-                  <td>{{ getUserEmailById(enrollment.idUser) }}</td>
-                  <td>{{ enrollment.state }}</td>
-                  <td v-if="enrollment.state != 'inscrito'">
+                <tr v-for="enrollment in currentEvent" :key="enrollment.id">
+                  <td>{{ enrollment.user.first_name }} {{enrollment.user.last_name}}</td>
+                  <td>{{ enrollment.user.email }}</td>
+                  <td>{{ getEnrollmentStatusName(enrollment.enrolled) }}</td>
+                  <td v-if="enrollment.event.closed == true">
                     <span>
                       <b-button
                         class="mb-3"
                         id="btnAccept"
-                        @click="acceptEnrollment(enrollment)"
-                        >Aceitar Inscrição</b-button
+                        @click="givePoints(enrollment.eventId)"
+                        >Atribuir Pontos</b-button
                       >
                     </span>
-                    <span>
-                      <b-button
-                        class="mb-3"
-                        id="btnCancel"
-                        @click="cancelEnrollment(enrollment)"
-                        >Cancelar Inscrição</b-button
-                      >
-                    </span>
+                    
                   </td>
                   <td v-else>Sem Ações.</td>
                 </tr>
@@ -59,24 +52,29 @@
 
 <script>
 /* eslint-disable */
+import { EventService } from '../services/events_service';
 export default {
   name: "EnrollmentsUsersList",
   data() {
     return {
-      photo: this.$store.state.eventsProfileContent.photo,
-      eventName: this.$store.state.eventsProfileContent.name,
+      /* photo: this.$store.state.eventsProfileContent.photo,
+      eventName: this.$store.state.eventsProfileContent.name, */
+      currentEvent: ''
     };
   },
-  computed: {
+  mounted(){
+    this.getOneEventEnrollments()
+  },
+  /* computed: {
     filterEvent() {
       return this.$store.state.enrollments.filter(
         (enrollment) =>
           enrollment.idEvent == this.$store.state.eventsProfileContent.id
       );
     },
-  },
+  }, */
   methods: {
-    getUserNameById(id) {
+    /* getUserNameById(id) {
       console.log(id);
       const fname = this.$store.state.users.find((user) => user.nrAluno == id)
         .fname;
@@ -95,7 +93,28 @@ export default {
     cancelEnrollment(enrollment) {
       this.$store.dispatch("unsubscribeEvent", enrollment);
       //this.router.go();
+    }, */
+    async getOneEventEnrollments(){
+      
+      this.currentEvent = await EventService.fetchOneEventEnrollments(this.$store.state.eventsProfileContent.id)
+
     },
+    getEnrollmentStatusName(status) {
+      if (status == true) {
+        return "Inscrito";
+      } else {
+        return "Pendente";
+      }
+    },
+    givePoints(eventID) {
+      try {
+        this.$store.dispatch("fetchGivePoints", eventID);
+        this.$router.push({ name: "Admin" });
+      } catch (error) {
+        alert(error);
+      }
+      
+    }
   },
 };
 </script>

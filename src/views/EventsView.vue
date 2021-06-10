@@ -7,7 +7,7 @@
           <img class="img-fluid" :src="currentEvent.event.photo" />
           <div class="eventDate">
             <p class="eventDay">{{ currentEvent.event.date_time_event.split("T")[0].split("-")[2] }} / {{ currentEvent.event.date_time_event.split("T")[0].split("-")[1] }}</p>
-            <p class="eventTime">{{ currentEvent.event.date_time_event.split("T")[1]}}</p>
+            <p class="eventTime">{{ currentEvent.event.date_time_event.split("T")[1].split(':')[0]}}:{{ currentEvent.event.date_time_event.split("T")[1].split(':')[1]}}H</p>
           </div>
           <div v-if="currentEvent.message">   
             <div v-if="currentEvent.message == 'logged'">
@@ -34,13 +34,14 @@
                     >
                       Pagar Sem Desconto
                     </button>
-
+                  <span v-if="currentEvent.event.enrollments[0].user.points > 0">
                     <button
                       @click="payEnrollmentDiscounted(currentEvent.event)"
                       class="btn btnUnsubscribe"
                     >
                       Pagar Com Desconto
                     </button>
+                  </span>
               </span>
             </div>
           </div>

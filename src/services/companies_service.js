@@ -32,6 +32,8 @@ export const CompanyService = {
             // console.log(data)
             return data;
         } else {
+            let data = await response.json();
+            alert(data.message);
             // console.log("companies SERVICE - fetch ALL companies: ERROR ");
             // console.log(response)
             throw Error(handleResponses(response.status));
@@ -50,6 +52,8 @@ export const CompanyService = {
             console.log(data)
             return data;
         } else {
+            let data = await response.json();
+            alert(data.message);
             // console.log("USER SERVICE - fetch ALL USERS: ERROR ");
             // console.log(response)
             throw Error(handleResponses(response.status));
@@ -73,8 +77,11 @@ export const CompanyService = {
         if (response.ok) {
           const data = await response.json();
           console.log(data)
+          alert(data.message);
           return data;
         } else {
+            let data = await response.json();
+            alert(data.message);
           throw Error(response.message);
         }
       },
@@ -95,12 +102,15 @@ export const CompanyService = {
         });
         if (response.ok) {
           let data = await response.json();
+          alert(data.message)
           // console.log("USER SERVICE - fetch ALL USERS")
           console.log(data);
           return data;
         } else {
           // console.log("USER SERVICE - fetch ALL USERS: ERROR ");
           // console.log(response)
+          let data = await response.json();
+            alert(data.message);
           throw Error(handleResponses(response.status));
         }
       },
@@ -111,9 +121,12 @@ export const CompanyService = {
         });
         if (response.ok) {
             let data = await response.json();
+            alert(data.message)
             return data;
         }
         else {
+            let data = await response.json();
+            alert(data.message);
             throw Error(handleResponses(response.status));
         }
     },

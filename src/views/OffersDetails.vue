@@ -6,8 +6,8 @@
           <p class="d-flex justify-content-left">Imagem da Empresa</p>
           <b-card>
             <b-card-text>
-              <b-img :src="filterCompany.logo"></b-img><br />
-              <p>{{ filterCompany.name }}</p>
+              <b-img :src="this.$store.state.offersProfileContent.company.logo"></b-img><br />
+              <p>{{ this.$store.state.offersProfileContent.company.name }}</p>
             </b-card-text>
           </b-card>
         </b-col>
@@ -119,7 +119,7 @@ export default {
         //chamar ação editOffer
         this.$store.dispatch("editOffer", this.$data.send);
         //saltar para a view Admin
-        this.$router.push({ name: "Admin" });
+        this.$router.push({ name: "Home" });
       } catch (error) {
         alert(error);
       }

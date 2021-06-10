@@ -87,7 +87,7 @@
                     //chamar ação addCompany
                     this.$store.dispatch("addCompany", this.$data.send);
                     //saltar para a view admin
-                    this.$router.push({ name: "Admin" });
+                    this.$router.push({ name: "Home" });
                 } catch (error) {
                     alert(error);
                 }
